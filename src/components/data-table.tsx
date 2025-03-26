@@ -1,6 +1,5 @@
 import { useTable } from "react-table";
 import { useMemo, useRef } from "react";
-import { FixedSizeList } from "react-window";
 
 import {
   Box,
@@ -34,79 +33,11 @@ const DataTable = ({ data }: DataTableProps) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
-  const RenderRow = ({
-    index,
-    style,
-  }: {
-    index: number;
-    style: React.CSSProperties;
-  }) => {
-    const row = rows[index];
-    prepareRow(row);
-    return (
-      <TableRow
-        {...row.getRowProps({
-          style: {
-            ...style,
-            display: isMobile ? "block" : "flex",
-            width: "100%",
-          },
-        })}
-        sx={{
-          "&:hover": { bgcolor: "grey.100" },
-          flexDirection: isMobile ? "column" : "row",
-        }}
-      >
-        {row.cells.map((cell, cellIndex) => (
-          <TableCell
-            {...cell.getCellProps()}
-            sx={{
-              flex: isMobile ? "none" : 1,
-              display: "flex",
-              alignItems: "center",
-              borderBottom: "1px solid rgba(224, 224, 224, 1)",
-              minWidth: isMobile ? "100%" : cellIndex === 0 ? 50 : 150,
-              maxWidth: isMobile ? "100%" : cellIndex === 0 ? 50 : 150,
-              width: isMobile ? "100%" : "auto",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              padding: isMobile ? "8px 16px" : "inherit",
-              ...(isMobile &&
-                cellIndex > 0 && {
-                  borderTop: "1px solid rgba(224, 224, 224, 1)",
-                  paddingTop: "12px",
-                }),
-            }}
-            key={cellIndex}
-          >
-            {isMobile && cellIndex > 0 && (
-              <Box
-                component="span"
-                sx={{
-                  fontWeight: 600,
-                  marginRight: "8px",
-                  minWidth: "100px",
-                  display: "inline-block",
-                }}
-              >
-                {columns[cellIndex].Header}:
-              </Box>
-            )}
-            {cell.render("Cell")}
-          </TableCell>
-        ))}
-      </TableRow>
-    );
-  };
-
-  const tableWidth = tableRef.current?.getBoundingClientRect().width || "100%";
-
   return (
     <Box
       sx={{
         width: "100%",
-        maxWidth: isMobile ? "100%" : 1400,
+        maxWidth: isMobile ? "100%" : 1080,
         margin: "0 auto",
         border: "1px solid",
         borderColor: "divider",
@@ -162,50 +93,39 @@ const DataTable = ({ data }: DataTableProps) => {
               ))}
             </TableHead>
             <TableBody {...getTableBodyProps()}>
-              {rows.length <= 100 ? (
-                rows.map((row, index) => {
-                  prepareRow(row);
-                  return (
-                    <TableRow
-                      {...row.getRowProps()}
-                      sx={{
-                        display: "flex",
-                        width: "100%",
-                        "&:hover": { bgcolor: "grey.100" },
-                      }}
-                      key={index}
-                    >
-                      {row.cells.map((cell, cellIndex) => (
-                        <TableCell
-                          {...cell.getCellProps()}
-                          sx={{
-                            flex: 1,
-                            display: "flex",
-                            alignItems: "center",
-                            minWidth: cellIndex === 0 ? 50 : 150,
-                            maxWidth: cellIndex === 0 ? 50 : 150,
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                          }}
-                          key={cellIndex}
-                        >
-                          {cell.render("Cell")}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  );
-                })
-              ) : (
-                <FixedSizeList
-                  height={400}
-                  itemCount={rows.length}
-                  itemSize={48}
-                  width={tableWidth}
-                >
-                  {RenderRow}
-                </FixedSizeList>
-              )}
+              {rows.map((row, index) => {
+                prepareRow(row);
+                return (
+                  <TableRow
+                    {...row.getRowProps()}
+                    sx={{
+                      display: "flex",
+                      width: "100%",
+                      "&:hover": { bgcolor: "grey.100" },
+                    }}
+                    key={index}
+                  >
+                    {row.cells.map((cell, cellIndex) => (
+                      <TableCell
+                        {...cell.getCellProps()}
+                        sx={{
+                          flex: 1,
+                          display: "flex",
+                          alignItems: "center",
+                          minWidth: cellIndex === 0 ? 50 : 150,
+                          maxWidth: cellIndex === 0 ? 50 : 150,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                        key={cellIndex}
+                      >
+                        {cell.render("Cell")}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         )}
@@ -260,6 +180,6 @@ const DataTable = ({ data }: DataTableProps) => {
       </TableContainer>
     </Box>
   );
-}
+};
 
 export default DataTable;

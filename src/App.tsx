@@ -4,6 +4,7 @@ import { mockQueries } from "./data/queries";
 
 // custom components
 import DataTable from "./components/data-table";
+import QuerySelector from "./components/query-selector";
 
 // material-ui components
 import {
@@ -61,6 +62,15 @@ function App() {
 
   const handleClearQuery = () => {
     setCustomQuery("");
+  };
+
+  const handleQuerySelect = (queryId: number) => {
+    const query = mockQueries.find((q) => q.id === queryId);
+    if (query) {
+      setSelectedQuery(query);
+      setCustomQuery(query.query);
+      setDrawerOpen(false);
+    }
   };
 
   return (
@@ -165,6 +175,29 @@ function App() {
               flexDirection: { xs: "column", md: "row" },
             }}
           >
+            <Box
+              sx={{
+                width: { xs: "100%", md: 300 },
+                display: { xs: "none", md: "block" },
+              }}
+            >
+              <Card sx={{ border: 1, borderRadius: 2, borderColor: "divider" }}>
+                <CardContent>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ mb: 2, fontWeight: 500 }}
+                  >
+                    Predefined Queries
+                  </Typography>
+                  <QuerySelector
+                    queries={mockQueries}
+                    selectedQueryId={selectedQuery.id}
+                    onSelect={handleQuerySelect}
+                  />
+                </CardContent>
+              </Card>
+            </Box>
+
             <Box sx={{ flex: 1 }}>
               <Card
                 sx={{

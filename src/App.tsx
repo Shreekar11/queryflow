@@ -1,12 +1,14 @@
 import { Query } from "./types";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { mockQueries } from "./data/queries";
 import { genericMockData } from "./data/mock-data";
 
 // custom components
 import DataTable from "./components/data-table";
 import QueryInput from "./components/query-input";
+import QueryHistory from "./components/query-history";
 import VirtualTable from "./components/virtual-table";
+import SkeletonTable from "./components/table-skeleton";
 import QuerySelector from "./components/query-selector";
 
 // material-ui components
@@ -27,8 +29,6 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
-import QueryHistory from "./components/query-history";
-import SkeletonTable from "./components/table-skeleton";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -74,15 +74,18 @@ function App() {
     setCustomQuery("");
   };
 
-  const handleQuerySelect = (queryId: number) => {
-    const query = mockQueries.find((q) => q.id === queryId);
-    if (query) {
-      setSelectedQuery(query);
-      setCustomQuery(query.query);
-      setDrawerOpen(false);
-      setQueryError(null);
-    }
-  };
+  const handleQuerySelect = useCallback(
+    (queryId: number) => {
+      const query = mockQueries.find((q) => q.id === queryId);
+      if (query) {
+        setSelectedQuery(query);
+        setCustomQuery(query.query);
+        setDrawerOpen(false);
+        setQueryError(null);
+      }
+    },
+    [setCustomQuery, setDrawerOpen, setQueryError, setSelectedQuery]
+  );
 
   return (
     <Box

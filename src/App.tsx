@@ -33,6 +33,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import { toast } from "sonner";
 
 function App() {
   const { mode, toggleTheme } = useTheme();
@@ -89,6 +90,8 @@ function App() {
             ...prev.slice(0, 4),
           ]);
         }
+
+        toast.success("Query executed successfully");
       } else {
         setSelectedQuery({
           id: 0,
@@ -99,6 +102,8 @@ function App() {
           { id: 0, query: "Invalid query format", data: [] },
           ...prev.slice(0, 4),
         ]);
+
+        toast.error("Invalid query format");
       }
 
       setIsLoading(false);
@@ -107,6 +112,7 @@ function App() {
 
   const handleClearQuery = () => {
     setCustomQuery("");
+    toast.success("Query cleared successfully");
   };
 
   const handleQuerySelect = useCallback(
@@ -368,9 +374,9 @@ function App() {
                     {isLoading ? (
                       <SkeletonTable />
                     ) : selectedQuery.id === 5 ? (
-                      <VirtualTable data={selectedQuery.data} />
+                      <VirtualTable data={selectedQuery} />
                     ) : (
-                      <DataTable data={selectedQuery.data} />
+                      <DataTable data={selectedQuery} />
                     )}
                   </Box>
                 </CardContent>

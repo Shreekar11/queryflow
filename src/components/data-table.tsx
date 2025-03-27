@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { useTable } from "react-table";
 import { useMemo, useRef } from "react";
 
@@ -21,7 +22,11 @@ import {
 } from "@mui/material";
 
 interface DataTableProps {
-  data: Record<string, any>[];
+  data: {
+    id: number;
+    query: string;
+    data: Record<string, any>[];
+  };
 }
 
 const DataTable = ({ data }: DataTableProps) => {
@@ -30,26 +35,34 @@ const DataTable = ({ data }: DataTableProps) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleExportCSV = () => {
-    const csv = Papa.unparse(data);
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "query_results.csv";
-    a.click();
-    URL.revokeObjectURL(url);
+    const csv = Papa.unparse(data.data);
+    const tableMatch = data.query.match(/^select\s+\*\s+from\s+(\w+)/i);
+    if (tableMatch) {
+      const tableName = tableMatch[1].toLowerCase();
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${tableName}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      toast.success("CSV file downloaded successfully.");
+    } else {
+      toast.error("Failed to download CSV file.");
+    }
   };
 
   const columns = useMemo(() => {
-    if (data.length === 0) return [];
-    return Object.keys(data[0]).map((key) => ({
+    if (data.data.length === 0) return [];
+    return Object.keys(data.data[0]).map((key) => ({
       Header: key.charAt(0).toUpperCase() + key.slice(1),
       accessor: key,
     }));
   }, [data]);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+    useTable({ columns, data: data.data });
 
   const tableWidth = useMemo(() => {
     if (isMobile) return "100%";
@@ -60,7 +73,7 @@ const DataTable = ({ data }: DataTableProps) => {
 
   return (
     <div className="">
-      {data.length !== 0 && (
+      {data.data.length !== 0 && (
         <Tooltip title="Download the table data as a CSV file">
           <Button
             variant="outlined"
@@ -93,7 +106,7 @@ const DataTable = ({ data }: DataTableProps) => {
         >
           {!isMobile && (
             <div className="">
-              {data.length !== 0 ? (
+              {data.data.length !== 0 ? (
                 <Table
                   {...getTableProps()}
                   stickyHeader
@@ -182,7 +195,7 @@ const DataTable = ({ data }: DataTableProps) => {
           {/* table for mobile view */}
           {isMobile && (
             <div className="">
-              {data.length !== 0 ? (
+              {data.data.length !== 0 ? (
                 <Box sx={{ width: "100%" }}>
                   {rows.map((row, index) => {
                     prepareRow(row);

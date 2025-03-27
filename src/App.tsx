@@ -1,6 +1,7 @@
 import { Query } from "./types";
 import { mockQueries } from "./data/queries";
 import { useCallback, useState } from "react";
+import { useTheme } from "./context/theme-context";
 import { genericMockData } from "./data/mock-data";
 import { useRateLimiter } from "./hooks/useRateLimiter";
 
@@ -31,8 +32,11 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 function App() {
+  const { mode, toggleTheme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [queryError, setQueryError] = useState<string | null>(null);
@@ -200,6 +204,12 @@ function App() {
               <AccountTreeIcon sx={{ mr: 1, fontSize: "1.5rem" }} />
               QueryFlow
             </Typography>
+
+            <Tooltip title={`Switch to ${mode === "light" ? "dark" : "light"} mode`}>
+              <IconButton onClick={toggleTheme} color="inherit">
+                {mode === "light" ? <LightModeIcon /> : <DarkModeIcon />}
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
 

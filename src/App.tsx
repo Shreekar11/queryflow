@@ -1,6 +1,7 @@
 import { Query } from "./types";
 import { useState } from "react";
 import { mockQueries } from "./data/queries";
+import { genericMockData } from "./data/mock-data";
 
 // custom components
 import DataTable from "./components/data-table";
@@ -26,16 +27,24 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
-import { genericMockData } from "./data/mock-data";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [queryError, setQueryError] = useState<string | null>(null);
   const [selectedQuery, setSelectedQuery] = useState<Query>(mockQueries[0]);
   const [customQuery, setCustomQuery] = useState<string>(mockQueries[0].query);
 
   const handleRunQuery = () => {
     setIsLoading(true);
+
+    if (customQuery.trim() === "") {
+      setIsLoading(false);
+      setQueryError("Query cannot be empty");
+      return;
+    }
+
+    setQueryError(null);
 
     // added a dummy timeout to simulate an API call and show the loading state
     setTimeout(() => {
@@ -66,6 +75,7 @@ function App() {
       setSelectedQuery(query);
       setCustomQuery(query.query);
       setDrawerOpen(false);
+      setQueryError(null);
     }
   };
 
@@ -75,6 +85,7 @@ function App() {
         display: "flex",
         minHeight: "100vh",
         bgcolor: "background.default",
+        borderRadius: 1,
       }}
     >
       <Drawer
@@ -115,6 +126,11 @@ function App() {
           <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 600 }}>
             Predefined Queries
           </Typography>
+          <QuerySelector
+            queries={mockQueries}
+            selectedQueryId={selectedQuery.id}
+            onSelect={handleQuerySelect}
+          />
         </Box>
       </Drawer>
 
@@ -216,7 +232,11 @@ function App() {
                   >
                     Write Your Query
                   </Typography>
-                  <QueryInput query={customQuery} onChange={setCustomQuery} />
+                  <QueryInput
+                    query={customQuery}
+                    queryError={queryError}
+                    onChange={setCustomQuery}
+                  />
                   <Box sx={{ mt: 2, display: "flex", gap: 2, width: "30%" }}>
                     <Tooltip title="Execute the query">
                       <Button
@@ -233,9 +253,13 @@ function App() {
                     </Tooltip>
                     <Tooltip title="Clear the query input">
                       <Button
-                        variant="outlined"
                         onClick={handleClearQuery}
-                        sx={{ flex: 1 }}
+                        sx={{
+                          flex: 1,
+                          color: "black",
+                          border: 2,
+                          borderColor: "#808080",
+                        }}
                       >
                         Clear Query
                       </Button>

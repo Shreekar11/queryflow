@@ -19,14 +19,59 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily:
-      "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-    h4: {
+    fontFamily: "'Poppins', sans-serif",
+    h1: {
+      fontFamily: "'Poppins', sans-serif",
       fontWeight: 700,
-      color: "#1A202C",
+    },
+    h2: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 600,
+    },
+    h3: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 600,
+    },
+    h4: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 500,
+    },
+    h5: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 500,
+    },
+    h6: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 500,
+    },
+    subtitle1: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 500,
+    },
+    subtitle2: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 500,
     },
     body1: {
-      color: "#4A5568",
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 400,
+    },
+    body2: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 400,
+    },
+    button: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 500,
+      textTransform: "none",
+    },
+    caption: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 400,
+    },
+    overline: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 400,
     },
   },
   components: {
@@ -44,6 +89,13 @@ const theme = createTheme({
         root: {
           borderRadius: 12,
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
+        },
+      },
+    },
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          fontFamily: "'Poppins', sans-serif",
         },
       },
     },

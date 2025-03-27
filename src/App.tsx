@@ -28,7 +28,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -121,7 +121,9 @@ function App() {
             variant="h6"
             sx={{ display: "flex", alignItems: "center" }}
           >
-            <QueryStatsIcon sx={{ mr: 1 }} />
+            <AccountTreeIcon
+              sx={{ mr: 1, fontSize: "1.5rem", color: "primary.main" }}
+            />
             QueryFlow
           </Typography>
           <IconButton onClick={() => setDrawerOpen(false)}>
@@ -185,9 +187,7 @@ function App() {
                 fontSize: { xs: "1rem", md: "1.25rem" },
               }}
             >
-              <QueryStatsIcon
-                sx={{ mr: 1, fontSize: "1.5rem", color: "primary.main" }}
-              />
+              <AccountTreeIcon sx={{ mr: 1, fontSize: "1.5rem" }} />
               QueryFlow
             </Typography>
           </Toolbar>

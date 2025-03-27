@@ -4,6 +4,8 @@ import { mockQueries } from "./data/queries";
 
 // custom components
 import DataTable from "./components/data-table";
+import QueryInput from "./components/query-input";
+import VirtualTable from "./components/virtual-table";
 import QuerySelector from "./components/query-selector";
 
 // material-ui components
@@ -20,7 +22,6 @@ import {
   CardContent,
   CircularProgress,
   Tooltip,
-  TextField,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -215,20 +216,7 @@ function App() {
                   >
                     Write Your Query
                   </Typography>
-                  <TextField
-                    label="SQL Query"
-                    multiline
-                    rows={6}
-                    value={customQuery}
-                    onChange={(e) => setCustomQuery(e.target.value)}
-                    fullWidth
-                    variant="outlined"
-                    placeholder="Type your SQL query here..."
-                    InputProps={{
-                      style: { fontFamily: "monospace", fontSize: "14px" },
-                    }}
-                    sx={{ bgcolor: "background.paper" }}
-                  />
+                  <QueryInput query={customQuery} onChange={setCustomQuery} />
                   <Box sx={{ mt: 2, display: "flex", gap: 2, width: "30%" }}>
                     <Tooltip title="Execute the query">
                       <Button
@@ -263,7 +251,20 @@ function App() {
                   >
                     Results
                   </Typography>
-                  <DataTable data={selectedQuery.data} />
+                  <Box
+                    sx={{
+                      width: "100%",
+                      overflowX: "auto",
+                      maxWidth: "100%",
+                    }}
+                  >
+                    {/* Virtualization for large data table */}
+                    {selectedQuery.id === 3 ? (
+                      <VirtualTable data={selectedQuery.data} />
+                    ) : (
+                      <DataTable data={selectedQuery.data} />
+                    )}
+                  </Box>
                 </CardContent>
               </Card>
             </Box>

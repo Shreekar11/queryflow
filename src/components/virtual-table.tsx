@@ -1,5 +1,6 @@
 import { useTable } from "react-table";
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
+import { FixedSizeList } from "react-window";
 import {
   Box,
   Table,
@@ -12,12 +13,11 @@ import {
   useTheme,
 } from "@mui/material";
 
-interface DataTableProps {
+interface VirtualTableProps {
   data: Record<string, any>[];
 }
 
-const DataTable = ({ data }: DataTableProps) => {
-  const tableRef = useRef<HTMLDivElement>(null);
+const VirtualTable = ({ data }: VirtualTableProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -39,6 +39,52 @@ const DataTable = ({ data }: DataTableProps) => {
     }, 0);
   }, [columns, isMobile]);
 
+  const RenderRow = ({
+    index,
+    style,
+  }: {
+    index: number;
+    style: React.CSSProperties;
+  }) => {
+    const row = rows[index];
+    prepareRow(row);
+    return (
+      <TableRow
+        {...row.getRowProps({
+          style: {
+            ...style,
+            display: "flex",
+            width: `${tableWidth}px`,
+          },
+        })}
+        sx={{
+          "&:hover": { bgcolor: "grey.100" },
+        }}
+      >
+        {row.cells.map((cell, cellIndex) => (
+          <TableCell
+            {...cell.getCellProps()}
+            sx={{
+              flex: "0 0 auto",
+              width: cellIndex === 0 ? 100 : 200,
+              minWidth: cellIndex === 0 ? 100 : 200,
+              maxWidth: cellIndex === 0 ? 100 : 200,
+              display: "flex",
+              alignItems: "center",
+              borderBottom: "1px solid rgba(224, 224, 224, 1)",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+            key={cellIndex}
+          >
+            {cell.render("Cell")}
+          </TableCell>
+        ))}
+      </TableRow>
+    );
+  };
+
   return (
     <Box
       sx={{
@@ -57,7 +103,6 @@ const DataTable = ({ data }: DataTableProps) => {
           overflowY: isMobile ? "visible" : "auto",
           overflowX: "auto",
         }}
-        ref={tableRef}
       >
         {!isMobile && (
           <Table
@@ -101,40 +146,14 @@ const DataTable = ({ data }: DataTableProps) => {
               ))}
             </TableHead>
             <TableBody {...getTableBodyProps()}>
-              {rows.map((row, index) => {
-                prepareRow(row);
-                return (
-                  <TableRow
-                    {...row.getRowProps()}
-                    sx={{
-                      display: "flex",
-                      width: "100%",
-                      "&:hover": { bgcolor: "grey.100" },
-                    }}
-                    key={index}
-                  >
-                    {row.cells.map((cell, cellIndex) => (
-                      <TableCell
-                        {...cell.getCellProps()}
-                        sx={{
-                          flex: "0 0 auto",
-                          width: cellIndex === 0 ? 100 : 200,
-                          minWidth: cellIndex === 0 ? 100 : 200,
-                          maxWidth: cellIndex === 0 ? 100 : 200,
-                          display: "flex",
-                          alignItems: "center",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                        key={cellIndex}
-                      >
-                        {cell.render("Cell")}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                );
-              })}
+              <FixedSizeList
+                height={400}
+                itemCount={rows.length}
+                itemSize={48}
+                width={"100%"}
+              >
+                {RenderRow}
+              </FixedSizeList>
             </TableBody>
           </Table>
         )}
@@ -191,4 +210,4 @@ const DataTable = ({ data }: DataTableProps) => {
   );
 };
 
-export default DataTable;
+export default VirtualTable;

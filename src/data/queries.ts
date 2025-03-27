@@ -198,20 +198,6 @@ export const mockQueries: Query[] = [
       amount: Math.floor(Math.random() * 1000) + 100,
       status: i % 2 === 0 ? "Completed" : "Pending",
       customerName: `Customer ${i + 1}`,
-      customerEmail: `customer${i + 1}@example.com`,
-      shippingAddress: `Address ${i + 1}, City ${
-        Math.floor(Math.random() * 10) + 1
-      }, Country ${Math.floor(Math.random() * 5) + 1}`,
-      orderDate: new Date(
-        Date.now() - Math.floor(Math.random() * 10000000000)
-      ).toISOString(),
-      deliveryDate:
-        i % 2 === 0
-          ? new Date(
-              Date.now() + Math.floor(Math.random() * 10000000000)
-            ).toISOString()
-          : null,
-      paymentStatus: i % 3 === 0 ? "Paid" : "Unpaid",
     })),
   },
 ];

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-const RATE_LIMIT = 5;
+const RATE_LIMIT = 10;
 const TIME_WINDOW = 60 * 1000;
 
 interface RateLimiterResult {
@@ -13,55 +13,52 @@ export const useRateLimiter = (): RateLimiterResult => {
   const [requestTimestamps, setRequestTimestamps] = useState<number[]>([]);
   const [rateLimitMessage, setRateLimitMessage] = useState<string | null>(null);
 
-  const canMakeRequest = (): boolean => {
+  const getRecentRequests = useCallback((): number[] => {
     const currentTime = Date.now();
-    const recentRequests = requestTimestamps.filter(
+
+    return requestTimestamps.filter(
       (timestamp) => currentTime - timestamp < TIME_WINDOW
     );
+  }, [requestTimestamps]);
 
-    return recentRequests.length < RATE_LIMIT;
-  };
+  const canMakeRequest = useCallback((): boolean => {
+    const recentRequests = getRecentRequests();
 
-  const addRequestTimestamp = (): void => {
-    const currentTime = Date.now();
-
-    setRequestTimestamps((prev) =>
-      [...prev, currentTime].filter(
-        (timestamp) => currentTime - timestamp < TIME_WINDOW
-      )
-    );
-  };
-
-  const getTimeUntilReset = (): number => {
-    if (requestTimestamps.length === 0) return 0;
-
-    const oldestTimestamp = requestTimestamps[0];
-    const currentTime = Date.now();
-    const timeElapsed = currentTime - oldestTimestamp;
-
-    return Math.max(0, Math.ceil((TIME_WINDOW - timeElapsed) / 1000));
-  };
-
-  useEffect(() => {
-    const currentTime = Date.now();
-
-    setRequestTimestamps((prev) =>
-      prev.filter((timestamp) => currentTime - timestamp < TIME_WINDOW)
-    );
-
-    if (!canMakeRequest()) {
-      const timeUntilReset = getTimeUntilReset();
-      setRateLimitMessage(
-        `Rate limit reached (${RATE_LIMIT} requests per minute). Please wait ${timeUntilReset} seconds to try again.`
-      );
-    } else {
-      setRateLimitMessage(null);
+    if (recentRequests.length !== requestTimestamps.length) {
+      setRequestTimestamps(recentRequests);
     }
 
-    const interval = setInterval(() => {
-      if (!canMakeRequest()) {
-        const timeUntilReset = getTimeUntilReset();
+    return recentRequests.length < RATE_LIMIT;
+  }, [getRecentRequests, requestTimestamps]);
 
+  const addRequestTimestamp = useCallback((): void => {
+    const currentTime = Date.now();
+    const recentRequests = getRecentRequests();
+
+    setRequestTimestamps([...recentRequests, currentTime]);
+  }, [getRecentRequests]);
+
+  const getTimeUntilReset = useCallback((): number => {
+    const recentRequests = getRecentRequests();
+    if (recentRequests.length === 0) return 0;
+
+    const oldestTimestamp = recentRequests[0];
+    const currentTime = Date.now();
+    const time = currentTime - oldestTimestamp;
+
+    return Math.max(0, Math.ceil((TIME_WINDOW - time) / 1000));
+  }, [getRecentRequests]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const recentRequests = getRecentRequests();
+
+      if (recentRequests.length !== requestTimestamps.length) {
+        setRequestTimestamps(recentRequests);
+      }
+
+      if (recentRequests.length >= RATE_LIMIT) {
+        const timeUntilReset = getTimeUntilReset();
         setRateLimitMessage(
           `Rate limit reached (${RATE_LIMIT} requests per minute). Please wait ${timeUntilReset} seconds to try again.`
         );
@@ -71,7 +68,7 @@ export const useRateLimiter = (): RateLimiterResult => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [requestTimestamps]);
+  }, [getRecentRequests, getTimeUntilReset, requestTimestamps]);
 
   return {
     canMakeRequest,

@@ -1,7 +1,8 @@
 import { Query } from "./types";
 import { mockQueries } from "./data/queries";
+import { useCallback, useState } from "react";
 import { genericMockData } from "./data/mock-data";
-import { useCallback, useEffect, useState } from "react";
+import { useRateLimiter } from "./hooks/useRateLimiter";
 
 // custom components
 import DataTable from "./components/data-table";
@@ -39,66 +40,8 @@ function App() {
   const [selectedQuery, setSelectedQuery] = useState<Query>(mockQueries[0]);
   const [customQuery, setCustomQuery] = useState<string>(mockQueries[0].query);
 
-  const [requestTimestamps, setRequestTimestamps] = useState<number[]>([]);
-  const [rateLimitMessage, setRateLimitMessage] = useState<string | null>(null);
-
-  const RATE_LIMIT = 10;
-  const TIME_WINDOW = 60 * 1000;
-
-  const canMakeRequest = () => {
-    const now = Date.now();
-    const recentRequests = requestTimestamps.filter(
-      (timestamp) => now - timestamp < TIME_WINDOW
-    );
-    return recentRequests.length < RATE_LIMIT;
-  };
-
-  const addRequestTimestamp = () => {
-    const now = Date.now();
-    setRequestTimestamps((prev) =>
-      [...prev, now].filter((timestamp) => now - timestamp < TIME_WINDOW)
-    );
-  };
-
-  const getTimeUntilReset = () => {
-    if (requestTimestamps.length === 0) return 0;
-    const oldestTimestamp = requestTimestamps[0];
-    const now = Date.now();
-    const timeElapsed = now - oldestTimestamp;
-    return Math.max(0, Math.ceil((TIME_WINDOW - timeElapsed) / 1000));
-  };
-
-  useEffect(() => {
-    const now = Date.now();
-    // Clean up old timestamps
-    setRequestTimestamps((prev) =>
-      prev.filter((timestamp) => now - timestamp < TIME_WINDOW)
-    );
-
-    if (!canMakeRequest()) {
-      const timeUntilReset = getTimeUntilReset();
-      setRateLimitMessage(
-        `Rate limit reached (${RATE_LIMIT} requests per minute).
-        Please wait ${timeUntilReset} seconds to try again.`
-      );
-    } else {
-      setRateLimitMessage(null);
-    }
-
-    const interval = setInterval(() => {
-      if (!canMakeRequest()) {
-        const timeUntilReset = getTimeUntilReset();
-        setRateLimitMessage(
-          `Rate limit reached (${RATE_LIMIT} requests per minute).
-          Please wait ${timeUntilReset} seconds to try again.`
-        );
-      } else {
-        setRateLimitMessage(null);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [requestTimestamps]);
+  const { canMakeRequest, addRequestTimestamp, rateLimitMessage } =
+    useRateLimiter();
 
   const handleRunQuery = () => {
     if (!canMakeRequest()) {
@@ -106,7 +49,6 @@ function App() {
     }
 
     setIsLoading(true);
-
     addRequestTimestamp();
 
     if (customQuery.trim() === "") {
@@ -262,9 +204,6 @@ function App() {
         </AppBar>
 
         <Box sx={{ flex: 1, py: { xs: 2, md: 4 } }}>
-          {/* <Typography variant="h4" gutterBottom sx={{ fontWeight: 500 }}>
-            SQL Query Runner
-          </Typography> */}
           <Box
             sx={{
               display: "flex",

@@ -22,7 +22,7 @@ const QuerySelector = ({
       >
         {queries.map((q, index) => (
           <MenuItem key={index} value={q.id}>
-            Query {q.id}: {q.query.substring(0, 20)}...
+            {q.query}
           </MenuItem>
         ))}
       </Select>

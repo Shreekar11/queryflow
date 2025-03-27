@@ -1,8 +1,7 @@
 import { Query } from "./types";
-import { mockQueries } from "./data/queries";
+import { mockQueries } from "./data";
 import { useCallback, useState } from "react";
 import { useTheme } from "./context/theme-context";
-import { genericMockData } from "./data/mock-data";
 import { useRateLimiter } from "./hooks/useRateLimiter";
 
 // custom components
@@ -65,21 +64,43 @@ function App() {
 
     // added a dummy timeout to simulate an API call and show the loading state
     setTimeout(() => {
-      const matchingQuery = mockQueries.find(
-        (q) => q.query.trim().toLowerCase() === customQuery.trim().toLowerCase()
-      );
-      if (matchingQuery) {
-        setSelectedQuery(matchingQuery);
-        setHistory((prev) => [matchingQuery, ...prev.slice(0, 4)]);
+      const normalizedQuery = customQuery.toLowerCase().trim();
+
+      const tableMatch = normalizedQuery.match(/^select\s+\*\s+from\s+(\w+)/i);
+
+      if (tableMatch) {
+        const tableName = tableMatch[1].toLowerCase();
+
+        const baseQuery = mockQueries.find(
+          (q) => q.query.toLowerCase().trim() === `select * from ${tableName};`
+        );
+
+        if (baseQuery) {
+          setSelectedQuery(baseQuery);
+          setHistory((prev) => [baseQuery, ...prev.slice(0, 4)]);
+        } else {
+          setSelectedQuery({
+            id: 0,
+            query: "No matching query found",
+            data: [],
+          });
+          setHistory((prev) => [
+            { id: 0, query: "No matching query found", data: [] },
+            ...prev.slice(0, 4),
+          ]);
+        }
       } else {
-        const customQueryEntry: Query = {
-          id: history.length + 1,
-          query: customQuery,
-          data: genericMockData,
-        };
-        setSelectedQuery(customQueryEntry);
-        setHistory((prev) => [customQueryEntry, ...prev.slice(0, 4)]);
+        setSelectedQuery({
+          id: 0,
+          query: "Invalid query format",
+          data: [],
+        });
+        setHistory((prev) => [
+          { id: 0, query: "Invalid query format", data: [] },
+          ...prev.slice(0, 4),
+        ]);
       }
+
       setIsLoading(false);
     }, 1000);
   };
@@ -346,7 +367,7 @@ function App() {
                   >
                     {isLoading ? (
                       <SkeletonTable />
-                    ) : selectedQuery.id === 3 ? (
+                    ) : selectedQuery.id === 5 ? (
                       <VirtualTable data={selectedQuery.data} />
                     ) : (
                       <DataTable data={selectedQuery.data} />

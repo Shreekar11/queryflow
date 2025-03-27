@@ -15,6 +15,7 @@ import {
   TableHead,
   TableRow,
   Tooltip,
+  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -59,16 +60,18 @@ const DataTable = ({ data }: DataTableProps) => {
 
   return (
     <div className="">
-      <Tooltip title="Download the table data as a CSV file">
-        <Button
-          variant="outlined"
-          startIcon={<DownloadIcon />}
-          onClick={handleExportCSV}
-          sx={{ mb: 2 }}
-        >
-          Export as CSV
-        </Button>
-      </Tooltip>
+      {data.length !== 0 && (
+        <Tooltip title="Download the table data as a CSV file">
+          <Button
+            variant="outlined"
+            startIcon={<DownloadIcon />}
+            onClick={handleExportCSV}
+            sx={{ mb: 2 }}
+          >
+            Export as CSV
+          </Button>
+        </Tooltip>
+      )}
       <Box
         sx={{
           width: "100%",
@@ -89,131 +92,147 @@ const DataTable = ({ data }: DataTableProps) => {
           ref={tableRef}
         >
           {!isMobile && (
-            <Table
-              {...getTableProps()}
-              stickyHeader
-              sx={{
-                tableLayout: "fixed",
-                width: tableWidth,
-                minWidth: "100%",
-              }}
-            >
-              <TableHead>
-                {headerGroups.map((headerGroup, index) => (
-                  <TableRow
-                    {...headerGroup.getHeaderGroupProps()}
-                    sx={{ display: "flex", width: "100%" }}
-                    key={index}
-                  >
-                    {headerGroup.headers.map((column, columnIndex) => (
-                      <TableCell
-                        {...column.getHeaderProps()}
-                        sx={{
-                          flex: "0 0 auto",
-                          width: columnIndex === 0 ? 100 : 200,
-                          minWidth: columnIndex === 0 ? 100 : 200,
-                          maxWidth: columnIndex === 0 ? 100 : 200,
-                          display: "flex",
-                          alignItems: "center",
-                          bgcolor: "grey.100",
-                          fontWeight: 600,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                        key={columnIndex}
+            <div className="">
+              {data.length !== 0 ? (
+                <Table
+                  {...getTableProps()}
+                  stickyHeader
+                  sx={{
+                    tableLayout: "fixed",
+                    width: tableWidth,
+                    minWidth: "100%",
+                  }}
+                >
+                  <TableHead>
+                    {headerGroups.map((headerGroup, index) => (
+                      <TableRow
+                        {...headerGroup.getHeaderGroupProps()}
+                        sx={{ display: "flex", width: "100%" }}
+                        key={index}
                       >
-                        {column.render("Header")}
-                      </TableCell>
+                        {headerGroup.headers.map((column, columnIndex) => (
+                          <TableCell
+                            {...column.getHeaderProps()}
+                            sx={{
+                              flex: "0 0 auto",
+                              width: columnIndex === 0 ? 100 : 200,
+                              minWidth: columnIndex === 0 ? 100 : 200,
+                              maxWidth: columnIndex === 0 ? 100 : 200,
+                              display: "flex",
+                              alignItems: "center",
+                              bgcolor: "grey.100",
+                              fontWeight: 600,
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                            key={columnIndex}
+                          >
+                            {column.render("Header")}
+                          </TableCell>
+                        ))}
+                      </TableRow>
                     ))}
-                  </TableRow>
-                ))}
-              </TableHead>
-              <TableBody {...getTableBodyProps()}>
-                {rows.map((row, index) => {
-                  prepareRow(row);
-                  return (
-                    <TableRow
-                      {...row.getRowProps()}
-                      sx={{
-                        display: "flex",
-                        width: "100%",
-                        "&:hover": { bgcolor: "grey.100" },
-                      }}
-                      key={index}
-                    >
-                      {row.cells.map((cell, cellIndex) => (
-                        <TableCell
-                          {...cell.getCellProps()}
+                  </TableHead>
+                  <TableBody {...getTableBodyProps()}>
+                    {rows.map((row, index) => {
+                      prepareRow(row);
+                      return (
+                        <TableRow
+                          {...row.getRowProps()}
                           sx={{
-                            flex: "0 0 auto",
-                            width: cellIndex === 0 ? 100 : 200,
-                            minWidth: cellIndex === 0 ? 100 : 200,
-                            maxWidth: cellIndex === 0 ? 100 : 200,
                             display: "flex",
-                            alignItems: "center",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
+                            width: "100%",
+                            "&:hover": { bgcolor: "grey.100" },
                           }}
-                          key={cellIndex}
+                          key={index}
                         >
-                          {cell.render("Cell")}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
+                          {row.cells.map((cell, cellIndex) => (
+                            <TableCell
+                              {...cell.getCellProps()}
+                              sx={{
+                                flex: "0 0 auto",
+                                width: cellIndex === 0 ? 100 : 200,
+                                minWidth: cellIndex === 0 ? 100 : 200,
+                                maxWidth: cellIndex === 0 ? 100 : 200,
+                                display: "flex",
+                                alignItems: "center",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                              }}
+                              key={cellIndex}
+                            >
+                              {cell.render("Cell")}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              ) : (
+                <Typography sx={{ p: 2, font: "2rem", color: "red" }}>
+                  No data available.
+                </Typography>
+              )}
+            </div>
           )}
 
           {/* table for mobile view */}
           {isMobile && (
-            <Box sx={{ width: "100%" }}>
-              {rows.map((row, index) => {
-                prepareRow(row);
-                return (
-                  <Box
-                    key={index}
-                    sx={{
-                      border: "1px solid",
-                      borderColor: "divider",
-                      borderRadius: 2,
-                      mb: 2,
-                      p: 2,
-                    }}
-                  >
-                    {row.cells.map((cell, cellIndex) => (
+            <div className="">
+              {data.length !== 0 ? (
+                <Box sx={{ width: "100%" }}>
+                  {rows.map((row, index) => {
+                    prepareRow(row);
+                    return (
                       <Box
-                        key={cellIndex}
+                        key={index}
                         sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          py: 1,
-                          borderBottom:
-                            cellIndex < row.cells.length - 1
-                              ? "1px solid rgba(224, 224, 224, 1)"
-                              : "none",
+                          border: "1px solid",
+                          borderColor: "divider",
+                          borderRadius: 2,
+                          mb: 2,
+                          p: 2,
                         }}
                       >
-                        <Box
-                          component="span"
-                          sx={{
-                            fontWeight: 600,
-                            marginRight: "8px",
-                            minWidth: "100px",
-                          }}
-                        >
-                          {columns[cellIndex].Header}:
-                        </Box>
-                        {cell.render("Cell")}
+                        {row.cells.map((cell, cellIndex) => (
+                          <Box
+                            key={cellIndex}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              py: 1,
+                              borderBottom:
+                                cellIndex < row.cells.length - 1
+                                  ? "1px solid rgba(224, 224, 224, 1)"
+                                  : "none",
+                            }}
+                          >
+                            <Box
+                              component="span"
+                              sx={{
+                                fontWeight: 600,
+                                marginRight: "8px",
+                                minWidth: "100px",
+                              }}
+                            >
+                              {columns[cellIndex].Header}:
+                            </Box>
+                            {cell.render("Cell")}
+                          </Box>
+                        ))}
                       </Box>
-                    ))}
-                  </Box>
-                );
-              })}
-            </Box>
+                    );
+                  })}
+                </Box>
+              ) : (
+                <Typography sx={{ p: 2, font: "2rem", color: "red" }}>
+                  No data available.
+                </Typography>
+              )}
+            </div>
           )}
         </TableContainer>
       </Box>

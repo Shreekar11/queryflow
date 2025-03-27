@@ -1,14 +1,21 @@
-import { useTable } from "react-table";
 import { useMemo } from "react";
+import { useTable } from "react-table";
 import { FixedSizeList } from "react-window";
+
+import Papa from "papaparse";
+import DownloadIcon from "@mui/icons-material/Download";
+
+// material-ui components
 import {
   Box,
+  Button,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -20,6 +27,17 @@ interface VirtualTableProps {
 const VirtualTable = ({ data }: VirtualTableProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleExportCSV = () => {
+    const csv = Papa.unparse(data);
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "query_results.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const columns = useMemo(() => {
     if (data.length === 0) return [];
@@ -86,127 +104,139 @@ const VirtualTable = ({ data }: VirtualTableProps) => {
   };
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        maxWidth: isMobile ? "100%" : 1080,
-        margin: "0 auto",
-        border: "1px solid",
-        borderColor: "divider",
-        borderRadius: 2,
-        overflow: "hidden",
-      }}
-    >
-      <TableContainer
+    <div className="">
+      <Tooltip title="Download the table data as a CSV file">
+        <Button
+          variant="outlined"
+          startIcon={<DownloadIcon />}
+          onClick={handleExportCSV}
+          sx={{ mb: 2 }}
+        >
+          Export as CSV
+        </Button>
+      </Tooltip>
+      <Box
         sx={{
-          maxHeight: isMobile ? "none" : 400,
-          overflowY: isMobile ? "visible" : "auto",
-          overflowX: "auto",
+          width: "100%",
+          maxWidth: isMobile ? "100%" : 1080,
+          margin: "0 auto",
+          border: "1px solid",
+          borderColor: "divider",
+          borderRadius: 2,
+          overflow: "hidden",
         }}
       >
-        {!isMobile && (
-          <Table
-            {...getTableProps()}
-            stickyHeader
-            sx={{
-              tableLayout: "fixed",
-              width: tableWidth,
-              minWidth: "100%",
-            }}
-          >
-            <TableHead>
-              {headerGroups.map((headerGroup, index) => (
-                <TableRow
-                  {...headerGroup.getHeaderGroupProps()}
-                  sx={{ display: "flex", width: "100%" }}
-                  key={index}
-                >
-                  {headerGroup.headers.map((column, columnIndex) => (
-                    <TableCell
-                      {...column.getHeaderProps()}
-                      sx={{
-                        flex: "0 0 auto",
-                        width: columnIndex === 0 ? 100 : 200,
-                        minWidth: columnIndex === 0 ? 100 : 200,
-                        maxWidth: columnIndex === 0 ? 100 : 200,
-                        display: "flex",
-                        alignItems: "center",
-                        bgcolor: "grey.100",
-                        fontWeight: 600,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}
-                      key={columnIndex}
-                    >
-                      {column.render("Header")}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHead>
-            <TableBody {...getTableBodyProps()}>
-              <FixedSizeList
-                height={400}
-                itemCount={rows.length}
-                itemSize={48}
-                width={"100%"}
-              >
-                {RenderRow}
-              </FixedSizeList>
-            </TableBody>
-          </Table>
-        )}
-
-        {/* table for mobile view */}
-        {isMobile && (
-          <Box sx={{ width: "100%" }}>
-            {rows.map((row, index) => {
-              prepareRow(row);
-              return (
-                <Box
-                  key={index}
-                  sx={{
-                    border: "1px solid",
-                    borderColor: "divider",
-                    borderRadius: 2,
-                    mb: 2,
-                    p: 2,
-                  }}
-                >
-                  {row.cells.map((cell, cellIndex) => (
-                    <Box
-                      key={cellIndex}
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        py: 1,
-                        borderBottom:
-                          cellIndex < row.cells.length - 1
-                            ? "1px solid rgba(224, 224, 224, 1)"
-                            : "none",
-                      }}
-                    >
-                      <Box
-                        component="span"
+        <TableContainer
+          sx={{
+            maxHeight: isMobile ? "none" : 400,
+            overflowY: isMobile ? "visible" : "auto",
+            overflowX: "auto",
+          }}
+        >
+          {!isMobile && (
+            <Table
+              {...getTableProps()}
+              stickyHeader
+              sx={{
+                tableLayout: "fixed",
+                width: tableWidth,
+                minWidth: "100%",
+              }}
+            >
+              <TableHead>
+                {headerGroups.map((headerGroup, index) => (
+                  <TableRow
+                    {...headerGroup.getHeaderGroupProps()}
+                    sx={{ display: "flex", width: "100%" }}
+                    key={index}
+                  >
+                    {headerGroup.headers.map((column, columnIndex) => (
+                      <TableCell
+                        {...column.getHeaderProps()}
                         sx={{
+                          flex: "0 0 auto",
+                          width: columnIndex === 0 ? 100 : 200,
+                          minWidth: columnIndex === 0 ? 100 : 200,
+                          maxWidth: columnIndex === 0 ? 100 : 200,
+                          display: "flex",
+                          alignItems: "center",
+                          bgcolor: "grey.100",
                           fontWeight: 600,
-                          marginRight: "8px",
-                          minWidth: "100px",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                        key={columnIndex}
+                      >
+                        {column.render("Header")}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableHead>
+              <TableBody {...getTableBodyProps()}>
+                <FixedSizeList
+                  height={400}
+                  itemCount={rows.length}
+                  itemSize={48}
+                  width={"100%"}
+                >
+                  {RenderRow}
+                </FixedSizeList>
+              </TableBody>
+            </Table>
+          )}
+
+          {/* table for mobile view */}
+          {isMobile && (
+            <Box sx={{ width: "100%" }}>
+              {rows.map((row, index) => {
+                prepareRow(row);
+                return (
+                  <Box
+                    key={index}
+                    sx={{
+                      border: "1px solid",
+                      borderColor: "divider",
+                      borderRadius: 2,
+                      mb: 2,
+                      p: 2,
+                    }}
+                  >
+                    {row.cells.map((cell, cellIndex) => (
+                      <Box
+                        key={cellIndex}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          py: 1,
+                          borderBottom:
+                            cellIndex < row.cells.length - 1
+                              ? "1px solid rgba(224, 224, 224, 1)"
+                              : "none",
                         }}
                       >
-                        {columns[cellIndex].Header}:
+                        <Box
+                          component="span"
+                          sx={{
+                            fontWeight: 600,
+                            marginRight: "8px",
+                            minWidth: "100px",
+                          }}
+                        >
+                          {columns[cellIndex].Header}:
+                        </Box>
+                        {cell.render("Cell")}
                       </Box>
-                      {cell.render("Cell")}
-                    </Box>
-                  ))}
-                </Box>
-              );
-            })}
-          </Box>
-        )}
-      </TableContainer>
-    </Box>
+                    ))}
+                  </Box>
+                );
+              })}
+            </Box>
+          )}
+        </TableContainer>
+      </Box>
+    </div>
   );
 };
 

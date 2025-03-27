@@ -25,12 +25,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
-
-// Generic mock data for custom queries
-const genericMockData = [
-  { id: 1, result: "Custom Result 1", value: 100 },
-  { id: 2, result: "Custom Result 2", value: 200 },
-];
+import { genericMockData } from "./data/mock-data";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -139,26 +134,32 @@ function App() {
             border: 1,
             borderColor: "divider",
             borderRadius: 2,
+            px: 2,
           }}
         >
-          <Toolbar>
+          <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
             <IconButton
               edge="start"
               onClick={() => setDrawerOpen(true)}
-              sx={{ mr: 2, display: { md: "none" } }}
+              sx={{ display: { md: "none" }, mr: 1 }}
+              aria-label="Open menu"
             >
               <MenuIcon />
             </IconButton>
+
             <Typography
               variant="h6"
               sx={{
-                flexGrow1: 1,
+                flexGrow: 1,
                 display: "flex",
                 alignItems: "center",
                 fontWeight: 500,
+                fontSize: { xs: "1rem", md: "1.25rem" },
               }}
             >
-              <QueryStatsIcon sx={{ mr: 1 }} />
+              <QueryStatsIcon
+                sx={{ mr: 1, fontSize: "1.5rem", color: "primary.main" }}
+              />
               QueryFlow - SQL Query Runner
             </Typography>
           </Toolbar>

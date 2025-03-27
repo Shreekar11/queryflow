@@ -32,8 +32,8 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 function App() {
   const { mode, toggleTheme } = useTheme();
@@ -133,11 +133,13 @@ function App() {
         >
           <Typography
             variant="h6"
-            sx={{ display: "flex", alignItems: "center" }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              color: `${mode === "light" ? "white" : "black"}`,
+            }}
           >
-            <AccountTreeIcon
-              sx={{ mr: 1, fontSize: "1.5rem", color: "primary.main" }}
-            />
+            <AccountTreeIcon sx={{ mr: 1, fontSize: "1.5rem" }} />
             QueryFlow
           </Typography>
           <IconButton onClick={() => setDrawerOpen(false)}>
@@ -197,16 +199,25 @@ function App() {
                 flexGrow: 1,
                 display: "flex",
                 alignItems: "center",
-                fontWeight: 500,
+                fontWeight: 600,
                 fontSize: { xs: "1rem", md: "1.25rem" },
+                color: `${mode === "light" ? "black" : "white"}`,
               }}
             >
               <AccountTreeIcon sx={{ mr: 1, fontSize: "1.5rem" }} />
               QueryFlow
             </Typography>
 
-            <Tooltip title={`Switch to ${mode === "light" ? "dark" : "light"} mode`}>
-              <IconButton onClick={toggleTheme} color="inherit">
+            <Tooltip
+              title={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
+            >
+              <IconButton
+                sx={{
+                  color: `${mode === "light" ? "black" : "white"}`,
+                }}
+                onClick={toggleTheme}
+                color="inherit"
+              >
                 {mode === "light" ? <LightModeIcon /> : <DarkModeIcon />}
               </IconButton>
             </Tooltip>
@@ -231,7 +242,7 @@ function App() {
                 <CardContent>
                   <Typography
                     variant="subtitle1"
-                    sx={{ mb: 2, fontWeight: 500 }}
+                    sx={{ mb: 2, fontWeight: 600 }}
                   >
                     Predefined Queries
                   </Typography>
@@ -260,7 +271,7 @@ function App() {
                 <CardContent>
                   <Typography
                     variant="subtitle1"
-                    sx={{ mb: 2, fontWeight: 500 }}
+                    sx={{ mb: 2, fontWeight: 600 }}
                   >
                     Write Your Query
                   </Typography>
@@ -322,7 +333,7 @@ function App() {
                 <CardContent>
                   <Typography
                     variant="subtitle1"
-                    sx={{ mb: 2, fontWeight: 500 }}
+                    sx={{ mb: 2, fontWeight: 600 }}
                   >
                     Results
                   </Typography>

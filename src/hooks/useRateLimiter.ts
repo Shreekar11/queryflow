@@ -1,13 +1,8 @@
+import { RateLimiterResult } from "../types";
 import { useState, useEffect, useCallback } from "react";
 
 const RATE_LIMIT = 10;
 const TIME_WINDOW = 60 * 1000;
-
-interface RateLimiterResult {
-  canMakeRequest: () => boolean;
-  addRequestTimestamp: () => void;
-  rateLimitMessage: string | null;
-}
 
 export const useRateLimiter = (): RateLimiterResult => {
   const [requestTimestamps, setRequestTimestamps] = useState<number[]>([]);

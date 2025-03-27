@@ -9,3 +9,8 @@ export interface RateLimiterResult {
   addRequestTimestamp: () => void;
   rateLimitMessage: string | null;
 }
+
+export interface ThemeContextType {
+  mode: "light" | "dark";
+  toggleTheme: () => void;
+}

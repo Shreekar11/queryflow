@@ -25,7 +25,7 @@ export const mockQueries: Query[] = [
         photo: "alice.jpg",
         notes: "Excellent performer with leadership qualities.",
         reportsTo: "5",
-        photoPath: "/images/employees/alice.jpg",
+        photoPath: "/alice.jpg",
       },
       {
         id: 2,
@@ -46,7 +46,7 @@ export const mockQueries: Query[] = [
         photo: "bob.jpg",
         notes: "Has a strong track record in project management.",
         reportsTo: "3",
-        photoPath: "/images/employees/bob.jpg",
+        photoPath: "/bob.jpg",
       },
       {
         id: 3,
@@ -67,7 +67,7 @@ export const mockQueries: Query[] = [
         photo: "charlie.jpg",
         notes: "Skilled in data visualization and statistical analysis.",
         reportsTo: "5",
-        photoPath: "/images/employees/charlie.jpg",
+        photoPath: "/charlie.jpg",
       },
       {
         id: 4,
@@ -88,7 +88,7 @@ export const mockQueries: Query[] = [
         photo: "diana.jpg",
         notes: "Manages recruitment and employee engagement.",
         reportsTo: "6",
-        photoPath: "/images/employees/diana.jpg",
+        photoPath: "/diana.jpg",
       },
       {
         id: 5,
@@ -109,7 +109,7 @@ export const mockQueries: Query[] = [
         photo: "ethan.jpg",
         notes: "Oversees technology and innovation.",
         reportsTo: "0",
-        photoPath: "/images/employees/ethan.jpg",
+        photoPath: "/ethan.jpg",
       },
     ],
   },
@@ -198,6 +198,7 @@ export const mockQueries: Query[] = [
       amount: Math.floor(Math.random() * 1000) + 100,
       status: i % 2 === 0 ? "Completed" : "Pending",
       customerName: `Customer ${i + 1}`,
+      customerEmail: `customer${i + 1}@example.com`,
     })),
   },
 ];

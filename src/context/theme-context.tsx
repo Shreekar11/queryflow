@@ -1,9 +1,11 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-
-interface ThemeContextType {
-  mode: "light" | "dark";
-  toggleTheme: () => void;
-}
+import {
+  useState,
+  useEffect,
+  ReactNode,
+  useContext,
+  createContext,
+} from "react";
+import { ThemeContextType } from "../types";
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 

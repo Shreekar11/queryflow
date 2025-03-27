@@ -27,11 +27,14 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import QueryHistory from "./components/query-history";
+import SkeletonTable from "./components/table-skeleton";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [queryError, setQueryError] = useState<string | null>(null);
+  const [history, setHistory] = useState<Query[]>([]);
   const [selectedQuery, setSelectedQuery] = useState<Query>(mockQueries[0]);
   const [customQuery, setCustomQuery] = useState<string>(mockQueries[0].query);
 
@@ -53,6 +56,7 @@ function App() {
       );
       if (matchingQuery) {
         setSelectedQuery(matchingQuery);
+        setHistory((prev) => [matchingQuery, ...prev.slice(0, 4)]);
       } else {
         const customQueryEntry: Query = {
           id: history.length + 1,
@@ -60,6 +64,7 @@ function App() {
           data: genericMockData,
         };
         setSelectedQuery(customQueryEntry);
+        setHistory((prev) => [customQueryEntry, ...prev.slice(0, 4)]);
       }
       setIsLoading(false);
     }, 1000);
@@ -132,6 +137,9 @@ function App() {
             onSelect={handleQuerySelect}
           />
         </Box>
+        <Box sx={{ mt: 2 }}>
+          <QueryHistory history={history} onSelect={handleQuerySelect} />
+        </Box>
       </Drawer>
 
       <Box
@@ -177,7 +185,7 @@ function App() {
               <QueryStatsIcon
                 sx={{ mr: 1, fontSize: "1.5rem", color: "primary.main" }}
               />
-              QueryFlow - SQL Query Runner
+              QueryFlow
             </Typography>
           </Toolbar>
         </AppBar>
@@ -212,6 +220,10 @@ function App() {
                     selectedQueryId={selectedQuery.id}
                     onSelect={handleQuerySelect}
                   />
+                  <QueryHistory
+                    history={history}
+                    onSelect={handleQuerySelect}
+                  />
                 </CardContent>
               </Card>
             </Box>
@@ -237,7 +249,14 @@ function App() {
                     queryError={queryError}
                     onChange={setCustomQuery}
                   />
-                  <Box sx={{ mt: 2, display: "flex", gap: 2, width: "30%" }}>
+                  <Box
+                    sx={{
+                      mt: 2,
+                      display: "flex",
+                      gap: 2,
+                      width: { xs: "100%", md: "30%" },
+                    }}
+                  >
                     <Tooltip title="Execute the query">
                       <Button
                         variant="contained"
@@ -253,12 +272,10 @@ function App() {
                     </Tooltip>
                     <Tooltip title="Clear the query input">
                       <Button
+                        variant="outlined"
                         onClick={handleClearQuery}
                         sx={{
                           flex: 1,
-                          color: "black",
-                          border: 2,
-                          borderColor: "#808080",
                         }}
                       >
                         Clear Query
@@ -282,8 +299,9 @@ function App() {
                       maxWidth: "100%",
                     }}
                   >
-                    {/* Virtualization for large data table */}
-                    {selectedQuery.id === 3 ? (
+                    {isLoading ? (
+                      <SkeletonTable />
+                    ) : selectedQuery.id === 3 ? (
                       <VirtualTable data={selectedQuery.data} />
                     ) : (
                       <DataTable data={selectedQuery.data} />

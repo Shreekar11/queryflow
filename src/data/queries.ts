@@ -191,7 +191,7 @@ export const mockQueries: Query[] = [
   },
   {
     id: 3,
-    query: "SELECT * FROM orders LIMIT 1000", // this is a large dataset for testing and implementing virtualization
+    query: "SELECT * FROM orders LIMIT 1000;", // this is a large dataset for testing and implementing virtualization
     data: Array.from({ length: 1000 }, (_, i) => ({
       id: i + 1,
       orderId: `ORD${i + 1}`,

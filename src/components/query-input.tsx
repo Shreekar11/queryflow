@@ -6,7 +6,7 @@ interface QueryInputProps {
   onChange: (query: string) => void;
 }
 
-function QueryInput({ query, queryError, onChange }: QueryInputProps) {
+const QueryInput = ({ query, queryError, onChange }: QueryInputProps) => {
   return (
     <div className="">
       {queryError && (

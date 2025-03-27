@@ -20,8 +20,8 @@ const QuerySelector = ({
         onChange={(e) => onSelect(Number(e.target.value))}
         label="Select Query"
       >
-        {queries.map((q) => (
-          <MenuItem key={q.id} value={q.id}>
+        {queries.map((q, index) => (
+          <MenuItem key={index} value={q.id}>
             Query {q.id}: {q.query.substring(0, 20)}...
           </MenuItem>
         ))}

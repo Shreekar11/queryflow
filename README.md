@@ -12,7 +12,7 @@ QueryFlow is an application which allows users to write, execute, and manage SQL
 
 ## Deployed Link
 
-[QueryFlow Website](https://query-flow-xi.vercel.app/)
+- Live Link: [QueryFlow Website](https://query-flow-xi.vercel.app/)
 
 ## Core Features
 
@@ -50,10 +50,10 @@ QueryFlow is an application which allows users to write, execute, and manage SQL
 ![Performance Diagram](screenshots/performance.png)
 
 - **Measurement**: The page load time was measured using Chrome DevTools' **Lighthouse** tool
-- **Result**: The page load time is approximately **0.4 seconds** to **0.8 seconds**.
+- **Result**: The page load time is approximately **0.4 seconds** to **1.0 seconds**.
 - **How It Was Measured**:
-  1. Opened Chrome DevTools, navigated to the Lighthouse tab, and ran a performance audit with the following settings:
-  2. Recorded the TTI metric from the Lighthouse report.
+  - Opened Chrome DevTools, navigated to the Lighthouse tab, and ran a performance audit with the following settings:
+  - Recorded the TTI metric from the Lighthouse report.
 
 ## Performance Optimizations
 

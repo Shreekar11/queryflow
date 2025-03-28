@@ -1,10 +1,16 @@
 # [QueryFlow](https://query-flow-xi.vercel.app)
 
+![Header Section](screenshots/header.png)
+
 ## Project Overview
 
 QueryFlow is an application which allows users to write, execute, and manage SQL queries with a focus on usability, performance, and advanced functionality. Core features include a SQL query editor, dropdown predefined query selector, table to display data, while additional features include query history, and CSV export, virtualization for large datasets, rate limiting, and dark mode enhance the user experience. The project demonstrates the functionalities, performance optimization, and user-focused design.
 
-## Live Demo
+## System Architecture
+
+![Architecture Diagram](screenshots/architecture.png)
+
+## Deployed Link
 
 [QueryFlow Website](https://query-flow-xi.vercel.app/)
 
@@ -41,6 +47,8 @@ QueryFlow is an application which allows users to write, execute, and manage SQL
 
 ## Page Load Time
 
+![Performance Diagram](screenshots/performance.png)
+
 - **Measurement**: The page load time was measured using Chrome DevTools' **Lighthouse** tool
 - **Result**: The page load time is approximately **0.4 seconds** to **0.8 seconds**.
 - **How It Was Measured**:
@@ -68,7 +76,7 @@ Several optimizations were applied to decrease load time and increase overall pe
 
 ### Cons
 
-- Only supports basic SELECT * FROM table queries.
+- Only supports basic SELECT \* FROM table queries.
 - Uses mock data instead of a real backend API.
 
 ## Solution Future Aspects

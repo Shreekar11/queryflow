@@ -106,6 +106,8 @@ Several optimizations were applied to decrease load time and increase overall pe
    npm run dev
    ```
 
+4. Open http://localhost:5173 in your browser to see the application.
+
 ## Contact
 
 For any inquiries or support, please email us at shreekargade2004@gmail.com or open an issue in this repository.

@@ -2,7 +2,6 @@ import { toast } from "sonner";
 import { Query } from "./types";
 import { mockQueries } from "./data";
 import { useTheme } from "./context/theme-context";
-import { useRateLimiter } from "./hooks/useRateLimiter";
 import { useCallback, useState, lazy, Suspense } from "react";
 
 import "./styles/App.css";
@@ -29,7 +28,6 @@ import {
   CardContent,
   CircularProgress,
   Tooltip,
-  Alert,
   useMediaQuery,
   useTheme as useMuiTheme,
 } from "@mui/material";
@@ -206,9 +204,6 @@ function App() {
   const [selectedQuery, setSelectedQuery] = useState<Query>(mockQueries[0]);
   const [customQuery, setCustomQuery] = useState<string>(mockQueries[0].query);
 
-  const { canMakeRequest, addRequestTimestamp, rateLimitMessage } =
-    useRateLimiter();
-
   /**
    * @description Handles the execution of a query by checking rate limits, validating the query,
    * and simulating an API call to fetch results. Updates the query history and selected
@@ -223,12 +218,7 @@ function App() {
    * @returns {void}
    */
   const handleRunQuery = () => {
-    if (!canMakeRequest()) {
-      return;
-    }
-
     setIsLoading(true);
-    addRequestTimestamp();
 
     if (customQuery.trim() === "") {
       setIsLoading(false);
@@ -436,14 +426,6 @@ function App() {
                     onChange={setCustomQuery}
                   />
                 </Suspense>
-                {rateLimitMessage && (
-                  <Alert
-                    severity="warning"
-                    sx={{ mt: 2, border: 0, borderRadius: 1 }}
-                  >
-                    {rateLimitMessage}
-                  </Alert>
-                )}
                 <Box
                   className="app-button-container"
                   sx={{
@@ -451,16 +433,12 @@ function App() {
                     flexDirection: { xs: "column", sm: "row" },
                   }}
                 >
-                  <Tooltip
-                    title={
-                      rateLimitMessage ? rateLimitMessage : "Execute the query"
-                    }
-                  >
+                  <Tooltip title="Execute the query">
                     <span>
                       <Button
                         variant="contained"
                         onClick={handleRunQuery}
-                        disabled={isLoading || !canMakeRequest()}
+                        disabled={isLoading}
                         startIcon={
                           isLoading ? (
                             <CircularProgress size={20} />

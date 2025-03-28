@@ -6,7 +6,7 @@
 
 ## Project Overview
 
-QueryFlow is an application that allows users to write, execute, and manage SQL queries with a focus on usability, performance, and advanced functionality. Core features include a SQL query editor for executing queries, a dropdown for selecting predefined queries, and a table for displaying data. Additional features include query history, CSV export, virtualization to render large datasets, rate limiting, and dark mode to enhance the user experience. The project showcases various functionalities, performance optimizations, and a user-focused layout design.
+QueryFlow is an application that allows users to write, execute, and manage SQL queries with a focus on usability, performance, and advanced functionality. Core features include a SQL query editor for executing queries, a dropdown for selecting predefined queries, and a table for displaying data. Additional features include query history, CSV export, virtualization to render large datasets, and dark mode to enhance the user experience. The project showcases various functionalities, performance optimizations, and a user-focused layout design.
 
 ## Flow Diagram
 
@@ -24,7 +24,6 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 - **CSV Export**: Export query results as a CSV file.
 - **Virtualized Table**: Efficiently render large datasets using react-window without impacting browser performance.
 - **Dark Mode**: Switch between light and dark themes for enhanced accessibility.
-- **Rate Limiting**: Limits users to 10 queries per minute with a countdown timer.
 
 ## JavaScript Framework and Dependencies
 
@@ -74,7 +73,6 @@ Several optimizations were applied to decrease load time and increase overall pe
 - Virtualized table handles 1,000 rows efficiently using react-window
 - AceEditor, dark mode, and responsive design enhance usability.
 - TypeScript, modular structure, and JSDoc comments improve maintainability.
-- Rate limiting to limit users to 10 queries per minute with a countdown timer.
 
 ### Cons
 

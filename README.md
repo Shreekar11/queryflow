@@ -12,13 +12,6 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 
 ![Architecture Diagram](screenshots/architecture.png)
 
-## Deployment Platform
-- **Vercel** - Deployment platform for frontend
-
-## Deployed Link
-
-- [QueryFlow Website](https://query-flow-xi.vercel.app/)
-
 ## Core Features
 
 - **SQL Query Editor**: Write SQL queries using `AceEditor` with MySQL syntax highlighting, auto-completion and theme support.
@@ -46,6 +39,13 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
   - `"sonner": "^2.0.2"`: For toast notifications.
   - `"@mui/icons-material": "^6.4.8"`: For adding icons.
   - `"@mui/material": "^6.4.8"`: For responsive, theme-aware UI components.
+
+## Deployment Platform
+- **Vercel** - Deployment platform for frontend
+
+## Deployed Link
+
+- [QueryFlow Website](https://query-flow-xi.vercel.app/)
 
 ## Page Load Time
 

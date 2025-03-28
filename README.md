@@ -29,7 +29,7 @@ QueryFlow is an application which allows users to write, execute, and manage SQL
 
 ### Brownie Points: Virtualization for Large Data
 
-- **Virtualized Table**: Handles large datasets using `react-window` for efficient rendering.
+- **Virtualized Table**: Handles large datasets using `react-window` for efficient rendering without breaking the browser.
 
 ## JavaScript Framework and Dependencies
 
@@ -61,8 +61,8 @@ Several optimizations were applied to decrease load time and increase overall pe
 
 - **Lazy Loading**: Lazy-loaded components using `React.lazy` and `Suspense`, reducing the initial bundle size.
 - **Suspense Fallbacks**: Added loading states for lazy-loaded components to enhance user experience.
+- **Component Splitting**: Split code into smaller components to minimize re-renders and improve responsiveness.
 - **Static Styles in CSS**: Moved static styles to `App.css`, reducing First Contentful Paint (FCP).
-- **Component Splitting**: Split `AppHeader` and `MobileDrawer` to minimize re-renders, improving responsiveness.
 
 ## Pros and Cons of Proposed Solution
 
@@ -76,14 +76,13 @@ Several optimizations were applied to decrease load time and increase overall pe
 
 ### Cons
 
-- Only supports basic SELECT \* FROM table queries.
-- Uses mock data instead of a real backend API.
+- Currently supports basic SELECT \* FROM table queries.
+- Uses mock data instead of a retrieving from backend server.
 
 ## Solution Future Aspects
 
 - Add more robust query validation (e.g., using a SQL parser).
-- Replace mock data with a real backend API to execute queries against a database.
-- Allow users to select from multiple themes beyond light and dark modes.
+- Replace mock data with actual backend server to execute queries against a database.
 
 ## Setup Instructions for Local development
 

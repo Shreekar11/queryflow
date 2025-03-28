@@ -1,6 +1,6 @@
 # [QueryFlow](https://query-flow-xi.vercel.app)
 
-![Header Section](screenshots/header.png)
+![Header Section](screenshots/banner.png)
 
 > Execute your Queries with ease
 
@@ -10,7 +10,7 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 
 ## Flow Diagram
 
-![Architecture Diagram](screenshots/architecture.png)
+![Architecture Diagram](screenshots/flow-diagram.png)
 
 ## Core Features
 
@@ -40,6 +40,7 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
   - `"@mui/material": "^6.4.8"`: For responsive, theme-aware UI components.
 
 ## Deployment Platform
+
 - **Vercel** - Deployment platform for frontend
 
 ## Deployed Link

@@ -53,6 +53,19 @@ function App() {
   const { canMakeRequest, addRequestTimestamp, rateLimitMessage } =
     useRateLimiter();
 
+  /**
+   * @description Handles the execution of a query by checking rate limits, validating the query,
+   * and simulating an API call to fetch results. Updates the query history and selected
+   * query state based on the results.
+   *
+   * @remarks
+   * - If the rate limit is exceeded, the function exits early.
+   * - If the query is empty, it sets an error and exits.
+   * - Simulates an API call with a 1-second delay to show a loading state.
+   * - Displays a success or error toast based on the query execution result.
+   *
+   * @returns {void}
+   */
   const handleRunQuery = () => {
     if (!canMakeRequest()) {
       return;
@@ -116,10 +129,35 @@ function App() {
     }, 1000);
   };
 
+  /**
+   * @description Clears the current query input and displays a success toast notification.
+   *
+   * @remarks
+   * - Resets the `customQuery` state to an empty string.
+   * - Shows a toast notification to confirm the query has been cleared.
+   *
+   * @returns {void}
+   */
   const handleClearQuery = () => {
     setCustomQuery("");
     toast.success("Query cleared successfully");
   };
+
+  /**
+   * @description Handles the selection of a predefined query from the query list or history.
+   * Updates the selected query, sets the query input value, closes the drawer,
+   * and clears any existing query errors.
+   *
+   * @param {number} queryId - The ID of the query to select.
+   *
+   * @remarks
+   * - Finds the query in `mockQueries` by matching the provided `queryId`.
+   * - If a matching query is found, updates the `selectedQuery` and `customQuery` states,
+   *   closes the drawer, and clears any query errors.
+   * - Wrapped in `useCallback` to prevent unnecessary re-renders.
+   *
+   * @returns {void}
+   */
 
   const handleQuerySelect = useCallback(
     (queryId: number) => {

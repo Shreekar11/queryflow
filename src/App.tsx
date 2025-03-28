@@ -212,8 +212,12 @@ function App() {
                 color: mode === "light" ? "black" : "white",
               }}
             >
-              <AccountTreeIcon sx={{ mr: 1, fontSize: "1.5rem" }} />
-              QueryFlow
+              <img
+                src="/black_logo.svg"
+                alt="QueryFlow Logo"
+                style={{ width: "32px", height: "32px" }}
+              />
+              ueryFlow
             </Typography>
             <IconButton onClick={() => setDrawerOpen(false)}>
               <CloseIcon />
@@ -289,10 +293,12 @@ function App() {
                 color: mode === "light" ? "black" : "white",
               }}
             >
-              <AccountTreeIcon
-                sx={{ mr: 1, fontSize: { xs: "1rem", md: "1.5rem" } }}
+              <img
+                src="/black_logo.svg"
+                alt="QueryFlow Logo"
+                style={{ width: "32px", height: "32px" }}
               />
-              QueryFlow
+              ueryFlow
             </Typography>
 
             <Tooltip
@@ -435,7 +441,6 @@ function App() {
                           ) : (
                             <PlayCircleFilledWhiteOutlinedIcon
                               sx={{
-                                color: "white",
                                 fontSize: 20,
                               }}
                             />

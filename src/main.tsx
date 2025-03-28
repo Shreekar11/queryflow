@@ -16,7 +16,12 @@ const AppWrapper = () => {
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
-        <Toaster position="top-right" richColors />
+        <Toaster
+          position="top-right"
+          richColors
+          duration={2000}
+          visibleToasts={2}
+        />
         <App />
       </BrowserRouter>
     </MuiThemeProvider>

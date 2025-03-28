@@ -29,7 +29,10 @@ const QueryHistory = ({ history, onSelect }: QueryHistoryProps) => {
               sx={{
                 bgcolor: "background.default",
                 cursor: "pointer",
-                "&:hover": { bgcolor: "grey.100" },
+                "&:hover": {
+                  bgcolor: (theme) =>
+                    theme.palette.mode === "light" ? "grey.100" : "grey.800",
+                },
                 borderRadius: 1,
                 mb: 0.5,
               }}

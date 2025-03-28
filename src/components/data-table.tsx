@@ -7,6 +7,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 
 // material-ui components
 import {
+  Alert,
   Box,
   Button,
   Table,
@@ -72,24 +73,45 @@ const DataTable = ({ data }: DataTableProps) => {
   }, [columns, isMobile]);
 
   return (
-    <div className="">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "start",
+        justifyContent: "center",
+        width: "100%",
+      }}
+    >
       {data.data.length !== 0 && (
-        <Tooltip title="Download the table data as a CSV file">
-          <Button
-            variant="outlined"
-            startIcon={<DownloadIcon />}
-            onClick={handleExportCSV}
-            sx={{ mb: 2 }}
-          >
-            Export as CSV
-          </Button>
-        </Tooltip>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "start",
+            width: "100%",
+            gap: 2,
+            mb: 2,
+          }}
+        >
+          <Tooltip title="Download the table data as a CSV file">
+            <Button
+              variant="outlined"
+              startIcon={<DownloadIcon />}
+              onClick={handleExportCSV}
+            >
+              Export as CSV
+            </Button>
+          </Tooltip>
+          <Alert severity="info" sx={{ border: 0, borderRadius: 2 }}>
+            {`Showing ${rows.length} rows of ${data.data.length} rows`}
+          </Alert>
+        </Box>
       )}
       <Box
         sx={{
           width: "100%",
-          maxWidth: isMobile ? "100%" : 1080,
-          margin: "0 auto",
+          maxWidth: "100%",
           border: "1px solid",
           borderColor: "divider",
           borderRadius: 2,
@@ -133,7 +155,11 @@ const DataTable = ({ data }: DataTableProps) => {
                               maxWidth: columnIndex === 0 ? 100 : 200,
                               display: "flex",
                               alignItems: "center",
-                              bgcolor: "grey.100",
+                              bgcolor: (theme) =>
+                                theme.palette.mode === "light"
+                                  ? "grey.100"
+                                  : "grey.800",
+                              color: (theme) => theme.palette.text.primary,
                               fontWeight: 600,
                               overflow: "hidden",
                               textOverflow: "ellipsis",
@@ -156,7 +182,13 @@ const DataTable = ({ data }: DataTableProps) => {
                           sx={{
                             display: "flex",
                             width: "100%",
-                            "&:hover": { bgcolor: "grey.100" },
+                            "&:hover": {
+                              bgcolor: (theme) =>
+                                theme.palette.mode === "light"
+                                  ? "grey.100"
+                                  : "grey.800",
+                            },
+                            bgcolor: (theme) => theme.palette.background.paper,
                           }}
                           key={index}
                         >
@@ -173,6 +205,7 @@ const DataTable = ({ data }: DataTableProps) => {
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
                                 whiteSpace: "nowrap",
+                                color: (theme) => theme.palette.text.primary,
                               }}
                               key={cellIndex}
                             >
@@ -208,6 +241,10 @@ const DataTable = ({ data }: DataTableProps) => {
                           borderRadius: 2,
                           mb: 2,
                           p: 2,
+                          bgcolor: (theme) =>
+                            theme.palette.mode === "light"
+                              ? "background.paper"
+                              : "grey.900",
                         }}
                       >
                         {row.cells.map((cell, cellIndex) => (
@@ -221,6 +258,7 @@ const DataTable = ({ data }: DataTableProps) => {
                                 cellIndex < row.cells.length - 1
                                   ? "1px solid rgba(224, 224, 224, 1)"
                                   : "none",
+                              color: (theme) => theme.palette.text.primary,
                             }}
                           >
                             <Box

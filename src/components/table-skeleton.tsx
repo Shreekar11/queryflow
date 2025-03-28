@@ -9,12 +9,12 @@ import {
 } from "@mui/material";
 
 const SkeletonTable = () => {
-  const rowCount = 5; // Number of skeleton rows to display
+  const rowCount = 5;
   return (
     <Table sx={{ tableLayout: "fixed", width: "100%" }}>
       <TableHead>
         <TableRow sx={{ display: "flex", width: "100%" }}>
-          {Array.from({ length: 5 }).map((_, index) => (
+          {Array.from({ length: 10 }).map((_, index) => (
             <TableCell
               key={index}
               sx={{
@@ -34,7 +34,7 @@ const SkeletonTable = () => {
       <TableBody>
         {Array.from({ length: rowCount }).map((_, rowIndex) => (
           <TableRow key={rowIndex} sx={{ display: "flex", width: "100%" }}>
-            {Array.from({ length: 5 }).map((_, colIndex) => (
+            {Array.from({ length: 10 }).map((_, colIndex) => (
               <TableCell
                 key={colIndex}
                 sx={{

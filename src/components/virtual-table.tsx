@@ -8,6 +8,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 
 // material-ui components
 import {
+  Alert,
   Box,
   Button,
   Table,
@@ -89,7 +90,11 @@ const VirtualTable = ({ data }: VirtualTableProps) => {
           },
         })}
         sx={{
-          "&:hover": { bgcolor: "grey.100" },
+          "&:hover": {
+            bgcolor: (theme) =>
+              theme.palette.mode === "light" ? "grey.100" : "grey.800",
+          },
+          bgcolor: (theme) => theme.palette.background.paper,
         }}
       >
         {row.cells.map((cell, cellIndex) => (
@@ -106,6 +111,7 @@ const VirtualTable = ({ data }: VirtualTableProps) => {
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
+              color: (theme) => theme.palette.text.primary,
             }}
             key={cellIndex}
           >
@@ -117,21 +123,44 @@ const VirtualTable = ({ data }: VirtualTableProps) => {
   };
 
   return (
-    <div className="">
-      <Tooltip title="Download the table data as a CSV file">
-        <Button
-          variant="outlined"
-          startIcon={<DownloadIcon />}
-          onClick={handleExportCSV}
-          sx={{ mb: 2 }}
-        >
-          Export as CSV
-        </Button>
-      </Tooltip>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "start",
+        justifyContent: "center",
+        width: "100%",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "start",
+          width: "100%",
+          gap: 2,
+          mb: 2,
+        }}
+      >
+        <Tooltip title="Download the table data as a CSV file">
+          <Button
+            variant="outlined"
+            startIcon={<DownloadIcon />}
+            onClick={handleExportCSV}
+          >
+            Export as CSV
+          </Button>
+        </Tooltip>
+        <Alert severity="info" sx={{ border: 0, borderRadius: 2 }}>
+          {`Showing ${rows.length} rows of ${data.data.length} rows`}
+        </Alert>
+      </Box>
+
       <Box
         sx={{
           width: "100%",
-          maxWidth: isMobile ? "100%" : 1080,
+          maxWidth: "100%",
           margin: "0 auto",
           border: "1px solid",
           borderColor: "divider",
@@ -173,8 +202,11 @@ const VirtualTable = ({ data }: VirtualTableProps) => {
                           maxWidth: columnIndex === 0 ? 100 : 200,
                           display: "flex",
                           alignItems: "center",
-                          bgcolor: "grey.100",
-                          fontWeight: 600,
+                          bgcolor: (theme) =>
+                            theme.palette.mode === "light"
+                              ? "grey.100"
+                              : "grey.800",
+                          color: (theme) => theme.palette.text.primary,
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
@@ -214,6 +246,10 @@ const VirtualTable = ({ data }: VirtualTableProps) => {
                       borderRadius: 2,
                       mb: 2,
                       p: 2,
+                      bgcolor: (theme) =>
+                        theme.palette.mode === "light"
+                          ? "background.paper"
+                          : "grey.900",
                     }}
                   >
                     {row.cells.map((cell, cellIndex) => (
@@ -227,6 +263,7 @@ const VirtualTable = ({ data }: VirtualTableProps) => {
                             cellIndex < row.cells.length - 1
                               ? "1px solid rgba(224, 224, 224, 1)"
                               : "none",
+                          color: (theme) => theme.palette.text.primary,
                         }}
                       >
                         <Box

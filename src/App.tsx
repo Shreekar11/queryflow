@@ -211,11 +211,19 @@ function App() {
                 color: mode === "light" ? "black" : "white",
               }}
             >
-              <img
-                src="/black_logo.svg"
-                alt="QueryFlow Logo"
-                style={{ width: "32px", height: "32px" }}
-              />
+              {mode === "light" ? (
+                <img
+                  src="/black_logo.svg"
+                  alt="QueryFlow Logo"
+                  style={{ width: "32px", height: "32px" }}
+                />
+              ) : (
+                <img
+                  src="/white_logo.svg"
+                  alt="QueryFlow Logo"
+                  style={{ width: "32px", height: "32px" }}
+                />
+              )}
               ueryFlow
             </Typography>
             <IconButton onClick={() => setDrawerOpen(false)}>
@@ -292,11 +300,19 @@ function App() {
                 color: mode === "light" ? "black" : "white",
               }}
             >
-              <img
-                src="/black_logo.svg"
-                alt="QueryFlow Logo"
-                style={{ width: "32px", height: "32px" }}
-              />
+              {mode === "light" ? (
+                <img
+                  src="/black_logo.svg"
+                  alt="QueryFlow Logo"
+                  style={{ width: "32px", height: "32px" }}
+                />
+              ) : (
+                <img
+                  src="/white_logo.svg"
+                  alt="QueryFlow Logo"
+                  style={{ width: "32px", height: "32px" }}
+                />
+              )}
               ueryFlow
             </Typography>
 
@@ -330,7 +346,6 @@ function App() {
             sx={{
               width: 400,
               display: { xs: "none", md: "block" },
-              pr: 2,
             }}
           >
             <Card

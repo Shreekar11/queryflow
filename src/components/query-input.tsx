@@ -41,7 +41,9 @@ const QueryInput = ({ query, queryError, onChange }: QueryInputProps) => {
         style={{
           width: "100%",
           height: "150px",
-          border: queryError ? "1px solid red" : "1px solid #e0e0e0",
+          border: queryError
+            ? "1px solid red"
+            : `1px solid ${mode === "light" ? "#E0E0E0" : "#484848"}`,
           borderRadius: "4px",
         }}
       />

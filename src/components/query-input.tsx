@@ -3,6 +3,7 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-mysql";
 import "ace-builds/src-noconflict/theme-textmate";
 import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/ext-language_tools";
 
 import { useTheme } from "../context/theme-context";
 
@@ -30,8 +31,8 @@ const QueryInput = ({ query, queryError, onChange }: QueryInputProps) => {
         highlightActiveLine={true}
         value={query}
         setOptions={{
-          enableBasicAutocompletion: false,
-          enableLiveAutocompletion: false,
+          enableBasicAutocompletion: true,
+          enableLiveAutocompletion: true,
           enableSnippets: false,
           enableMobileMenu: true,
           showLineNumbers: true,

@@ -6,7 +6,7 @@
 
 ## Project Overview
 
-QueryFlow is an application that allows users to write, execute, and manage SQL queries with a focus on usability, performance, and advanced functionality. Core features include a SQL query editor for executing queries, a dropdown for selecting predefined queries, and a table for displaying data. Additional features include query history, CSV export, virtualization to render large datasets, and dark mode to enhance the user experience. The project showcases various functionalities, performance optimizations, and a user-focused layout design.
+QueryFlow is an application that allows users to write, execute, and manage SQL queries with a focus on usability, performance, and advanced functionality. Core features include a SQL query editor for executing queries, a dropdown for selecting predefined queries, and a table for displaying data. Additional features include query history, CSV export, virtualization to render large datasets, sorting data functionality, and dark mode to enhance the user experience. The project showcases various functionalities, performance optimizations, and a user-focused layout design.
 
 ## Flow Diagram
 
@@ -22,7 +22,8 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 
 - **Query History**: Access the last 5 executed queries from the history list.
 - **CSV Export**: Export query results as a CSV file.
-- **Virtualized Table**: Efficiently render large datasets using react-window without impacting browser performance.
+- **Optimized Table Rendering for Large Datasets**: Efficiently render large datasets using react-window without impacting browser performance.
+- **Sorting Functionality**: Sort table data in ascending or descending order by clicking on the table headers.
 - **Dark Mode**: Switch between light and dark themes for enhanced accessibility.
 
 ## JavaScript Framework and Dependencies
@@ -31,7 +32,7 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
   - **React.js**: JavaScript framework used to build user interfaces.
   - **TypeScript**: Superset of JavaScript for type safety.
 - **Major Plugins and Packages**:
-  - `"react-window": "^1.8.11"`: For virtualized tables to handle large datasets.
+  - `"react-window": "^1.8.11"`: For tables to handle large datasets.
   - `"react-table": "^7.8.0"`: For rendering tabular data.
   - `"react-ace": "^14.0.1"`: For the query editor with syntax highlighting.
   - `"papaparse": "^5.5.2"`: For CSV export functionality.
@@ -70,10 +71,11 @@ Several optimizations were applied to decrease load time and increase overall pe
 
 ### Pros
 
-- Includes core features like query editor, selector, and table, plus advanced ones like history and CSV export.
-- Virtualized table handles 1,000 rows efficiently using react-window
-- AceEditor, dark mode, and responsive design enhance usability.
-- TypeScript, modular structure, and JSDoc comments improve maintainability.
+- Includes core features like a query editor, selector, and table, along with advanced features such as history and CSV export.
+- Data table efficiently handles 1,000 rows using react-window.
+- Supports sorting functionality, allowing users to sort table data in ascending or descending order by clicking on column headers.
+- AceEditor, dark mode, and a responsive design enhance usability.
+- TypeScript, a modular structure, and JSDoc comments improve maintainability.
 
 ### Cons
 

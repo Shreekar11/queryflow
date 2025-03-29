@@ -10,7 +10,7 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 
 ## Demo Video
 
-[Watch QueryFlow Demo🚀](https://www.loom.com/share/09c517c0232a4c91b2d5720e4bf07afc?sid=c7f84747-71c6-451d-a873-f85ba9a87dae)
+[Watch QueryFlow Demo🚀](https://www.loom.com/share/eeff27b80f294b47b6068b6178b4de08?sid=64550084-4579-4b8b-9140-37b4a1eabf85)
 
 ## Features
 

@@ -128,7 +128,7 @@ const MobileDrawer = ({
   setDrawerOpen: (open: boolean) => void;
   selectedQuery: Query;
   history: Query[];
-  handleQuerySelect: (queryId: number) => void;
+  handleQuerySelect: (queryId: number, type: string) => void;
   isMobile: boolean;
 }) =>
   isMobile && (
@@ -294,25 +294,31 @@ function App() {
    * and clears any existing query errors.
    *
    * @param {number} queryId - The ID of the query to select.
+   * @param {string} type - The source of the query selection, either 'LIST' or 'HISTORY'.
    *
    * @remarks
    * - Finds the query in `mockQueries` by matching the provided `queryId`.
    * - If a matching query is found, updates the `selectedQuery` and `customQuery` states,
    *   closes the drawer, and clears any query errors.
+   * - The `type` argument affects whether the `data` comes from the previous state or the selected query.
    * - Wrapped in `useCallback` to prevent unnecessary re-renders.
    *
    * @returns {void}
    */
   const handleQuerySelect = useCallback(
-    (queryId: number) => {
+    (queryId: number, type: string) => {
       const query = mockQueries.find((q) => q.id === queryId);
       if (query) {
+        const { id, query: queryText, data } = query;
+
         setSelectedQuery((prev) => ({
-          id: query.id,
-          query: query.query,
-          data: prev.data,
+          ...prev,
+          id,
+          query: queryText,
+          data: type === "LIST" ? prev.data : data,
         }));
-        setCustomQuery(query.query);
+
+        setCustomQuery(queryText);
         setDrawerOpen(false);
         setQueryError(null);
       }

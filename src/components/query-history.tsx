@@ -14,7 +14,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 interface QueryHistoryProps {
   history: Query[];
-  onSelect: (queryId: number) => void;
+  onSelect: (queryId: number, type: string) => void;
 }
 
 const QueryHistory = ({ history, onSelect }: QueryHistoryProps) => {
@@ -64,7 +64,7 @@ const QueryHistory = ({ history, onSelect }: QueryHistoryProps) => {
           filteredHistory.map((q, index) => (
             <ListItem
               key={index}
-              onClick={() => onSelect(q.id)}
+              onClick={() => onSelect(q.id, "HISTORY")}
               sx={{
                 bgcolor: "background.default",
                 cursor: "pointer",

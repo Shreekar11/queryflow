@@ -4,7 +4,7 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 interface QuerySelectorProps {
   queries: Query[];
   selectedQueryId: number;
-  onSelect: (queryId: number) => void;
+  onSelect: (queryId: number, type: string) => void;
 }
 
 const QuerySelector = ({
@@ -17,7 +17,7 @@ const QuerySelector = ({
       <InputLabel>Select Query</InputLabel>
       <Select
         value={selectedQueryId}
-        onChange={(e) => onSelect(Number(e.target.value))}
+        onChange={(e) => onSelect(Number(e.target.value), "LIST")}
         label="Select Query"
       >
         {queries.map((q, index) => (

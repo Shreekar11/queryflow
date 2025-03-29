@@ -1,10 +1,13 @@
 import { toast } from "sonner";
 import { useMemo } from "react";
-import { useTable } from "react-table";
+import { useTable, useSortBy, Column } from "react-table";
 import { FixedSizeList } from "react-window";
 
 import Papa from "papaparse";
+import NorthIcon from "@mui/icons-material/North";
+import SouthIcon from "@mui/icons-material/South";
 import DownloadIcon from "@mui/icons-material/Download";
+import ImportExportIcon from "@mui/icons-material/ImportExport";
 
 // material-ui components
 import {
@@ -53,7 +56,7 @@ const VirtualTable = ({ data }: VirtualTableProps) => {
     }
   };
 
-  const columns = useMemo(() => {
+  const columns: Column<Record<string, any>>[] = useMemo(() => {
     if (data.data.length === 0) return [];
     return Object.keys(data.data[0]).map((key) => ({
       Header: key.charAt(0).toUpperCase() + key.slice(1),
@@ -62,7 +65,7 @@ const VirtualTable = ({ data }: VirtualTableProps) => {
   }, [data]);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data: data.data });
+    useTable({ columns, data: data.data }, useSortBy);
 
   const tableWidth = useMemo(() => {
     if (isMobile) return "100%";
@@ -194,7 +197,9 @@ const VirtualTable = ({ data }: VirtualTableProps) => {
                   >
                     {headerGroup.headers.map((column, columnIndex) => (
                       <TableCell
-                        {...column.getHeaderProps()}
+                        {...column.getHeaderProps(
+                          (column as any).getSortByToggleProps()
+                        )}
                         sx={{
                           flex: "0 0 auto",
                           width: columnIndex === 0 ? 100 : 200,
@@ -210,10 +215,22 @@ const VirtualTable = ({ data }: VirtualTableProps) => {
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
+                          cursor: "pointer",
                         }}
                         key={columnIndex}
                       >
-                        {column.render("Header")}
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          {column.render("Header")}
+                          {(column as any).isSorted ? (
+                            (column as any).isSortedDesc ? (
+                              <SouthIcon fontSize="small" sx={{ ml: 1 }} />
+                            ) : (
+                              <NorthIcon fontSize="small" sx={{ ml: 1 }} />
+                            )
+                          ) : (
+                            <ImportExportIcon fontSize="small" sx={{ ml: 1 }} />
+                          )}
+                        </Box>
                       </TableCell>
                     ))}
                   </TableRow>
@@ -274,7 +291,7 @@ const VirtualTable = ({ data }: VirtualTableProps) => {
                             minWidth: "100px",
                           }}
                         >
-                          {columns[cellIndex].Header}:
+                          {(columns as any)[cellIndex].Header}:
                         </Box>
                         {cell.render("Cell")}
                       </Box>

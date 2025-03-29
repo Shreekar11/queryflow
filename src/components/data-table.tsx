@@ -1,9 +1,12 @@
 import { toast } from "sonner";
-import { useTable } from "react-table";
 import { useMemo, useRef } from "react";
+import { useTable, useSortBy, Column } from "react-table";
 
 import Papa from "papaparse";
+import SouthIcon from '@mui/icons-material/South';
+import NorthIcon from '@mui/icons-material/North';
 import DownloadIcon from "@mui/icons-material/Download";
+import ImportExportIcon from "@mui/icons-material/ImportExport";
 
 // material-ui components
 import {
@@ -54,7 +57,7 @@ const DataTable = ({ data }: DataTableProps) => {
     }
   };
 
-  const columns = useMemo(() => {
+  const columns: Column<Record<string, any>>[] = useMemo(() => {
     if (data.data.length === 0) return [];
     return Object.keys(data.data[0]).map((key) => ({
       Header: key.charAt(0).toUpperCase() + key.slice(1),
@@ -63,7 +66,7 @@ const DataTable = ({ data }: DataTableProps) => {
   }, [data]);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data: data.data });
+    useTable({ columns, data: data.data }, useSortBy);
 
   const tableWidth = useMemo(() => {
     if (isMobile) return "100%";
@@ -147,7 +150,9 @@ const DataTable = ({ data }: DataTableProps) => {
                       >
                         {headerGroup.headers.map((column, columnIndex) => (
                           <TableCell
-                            {...column.getHeaderProps()}
+                            {...column.getHeaderProps(
+                              (column as any).getSortByToggleProps()
+                            )}
                             sx={{
                               flex: "0 0 auto",
                               width: columnIndex === 0 ? 100 : 200,
@@ -164,10 +169,31 @@ const DataTable = ({ data }: DataTableProps) => {
                               overflow: "hidden",
                               textOverflow: "ellipsis",
                               whiteSpace: "nowrap",
+                              cursor: "pointer", // Indicate clickable header
                             }}
                             key={columnIndex}
                           >
-                            {column.render("Header")}
+                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                              {column.render("Header")}
+                              {(column as any).isSorted ? (
+                                (column as any).isSortedDesc ? (
+                                  <SouthIcon
+                                    fontSize="small"
+                                    sx={{ ml: 1 }}
+                                  />
+                                ) : (
+                                  <NorthIcon
+                                    fontSize="small"
+                                    sx={{ ml: 1 }}
+                                  />
+                                )
+                              ) : (
+                                <ImportExportIcon
+                                  fontSize="small"
+                                  sx={{ ml: 1 }}
+                                />
+                              )}
+                            </Box>
                           </TableCell>
                         ))}
                       </TableRow>
@@ -269,7 +295,7 @@ const DataTable = ({ data }: DataTableProps) => {
                                 minWidth: "100px",
                               }}
                             >
-                              {columns[cellIndex].Header}:
+                              {(columns as any)[cellIndex].Header}:
                             </Box>
                             {cell.render("Cell")}
                           </Box>

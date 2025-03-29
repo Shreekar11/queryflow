@@ -10,20 +10,20 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 
 ## Demo Video
 
-[Watch QueryFlow Demo](https://www.loom.com/share/09c517c0232a4c91b2d5720e4bf07afc?sid=c7f84747-71c6-451d-a873-f85ba9a87dae)
+[Watch QueryFlow Demo🚀](https://www.loom.com/share/09c517c0232a4c91b2d5720e4bf07afc?sid=c7f84747-71c6-451d-a873-f85ba9a87dae)
 
-## Core Features
+## Features
 
-- **SQL Query Editor**: Write SQL queries using `AceEditor` with MySQL syntax highlighting, auto-completion and theme support.
+### Core Features
+- **SQL Query Editor**: Write SQL queries using `AceEditor` with MySQL syntax highlighting, auto-completion, and theme support.
 - **Dropdown Predefined Query Selector**: Select and execute predefined queries from a dropdown list.
 - **Table to Display Data**: View query results in a responsive table.
 
-## Additional Features
-
+### Additional Features
 - **Query History**: Access the last 5 executed queries from the history list.
 - **Search Query History**: Quickly find previously executed queries using a search function within the history list.
 - **CSV Export**: Export query results as a CSV file.
-- **Optimized Table Rendering for Large Datasets**: Efficiently render large datasets using react-window without impacting browser performance.
+- **Optimized Table Rendering for Large Datasets**: Efficiently render large datasets using `react-window` without impacting browser performance.
 - **Sorting Functionality**: Sort table data in ascending or descending order by clicking on the table headers.
 - **Dark Mode**: Switch between light and dark themes for enhanced accessibility.
 
@@ -32,20 +32,26 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 
 ![Architecture Diagram](screenshots/flow-diagram.png)
 
+## Tech Stack
 
-## JavaScript Framework and Dependencies
+### Framework and Language
+- **React.js** – JavaScript framework for building user interfaces.
+- **TypeScript** – Superset of JavaScript for type safety.
 
-- **Framework**:
-  - **React.js**: JavaScript framework used to build user interfaces.
-  - **TypeScript**: Superset of JavaScript for type safety.
-- **Major Plugins and Packages**:
-  - `"react-window": "^1.8.11"`: For tables to handle large datasets.
-  - `"react-table": "^7.8.0"`: For rendering tabular data.
-  - `"react-ace": "^14.0.1"`: For the query editor with syntax highlighting.
-  - `"papaparse": "^5.5.2"`: For CSV export functionality.
-  - `"sonner": "^2.0.2"`: For toast notifications.
-  - `"@mui/icons-material": "^6.4.8"`: For adding icons.
-  - `"@mui/material": "^6.4.8"`: For responsive, theme-aware UI components.
+### Major Plugins and Packages
+- **UI & Styling**
+  - `"@mui/material": "^6.4.8"` – Responsive, theme-aware UI components.
+  - `"@mui/icons-material": "^6.4.8"` – Material UI icons.
+- **Tables & Large Data Handling**
+  - `"react-window": "^1.8.11"` – Optimized rendering for large datasets.
+  - `"react-table": "^7.8.0"` – Lightweight, flexible table library.
+- **Query Editor & Syntax Highlighting**
+  - `"react-ace": "^14.0.1"` – SQL query editor with syntax highlighting.
+- **Data Export**
+  - `"papaparse": "^5.5.2"` – CSV export functionality.
+- **Notifications**
+  - `"sonner": "^2.0.2"` – For toast notifications.
+
 
 ## Deployment Platform
 

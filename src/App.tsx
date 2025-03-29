@@ -242,7 +242,7 @@ function App() {
 
         if (baseQuery) {
           setSelectedQuery(baseQuery);
-          setHistory((prev) => [baseQuery, ...prev.slice(0, 4)]);
+          setHistory((prev) => [baseQuery, ...prev]);
         } else {
           setSelectedQuery({
             id: 0,

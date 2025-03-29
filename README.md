@@ -59,7 +59,7 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 
 ## Deployed Link
 
-- [QueryFlow Website](https://query-flow-xi.vercel.app/)
+- [QueryFlow Website🚀](https://query-flow-xi.vercel.app/)
 
 ## Page Load Time
 
@@ -77,6 +77,9 @@ Several optimizations were applied to decrease load time and increase overall pe
 
 - **Lazy Loading**: Lazy-loaded components using `React.lazy` and `Suspense`, reducing the initial bundle size.
 - **Suspense Fallbacks**: Added loading states for lazy-loaded components to enhance user experience.
+- **`useCallback` & `useMemo` Hooks**:  
+  - **`useCallback`**: Used to memoize functions, preventing unnecessary re-creations on re-renders and improving performance in event handlers and callbacks.  
+  - **`useMemo`**: Memoizes expensive calculations, ensuring they are only recomputed when dependencies change, reducing redundant computations.
 - **Component Splitting**: Split code into smaller components to minimize re-renders and improve responsiveness.
 - **Static Styles in CSS**: Moved static styles to `App.css`, reducing First Contentful Paint (FCP).
 

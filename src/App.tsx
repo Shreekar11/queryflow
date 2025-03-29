@@ -307,7 +307,11 @@ function App() {
     (queryId: number) => {
       const query = mockQueries.find((q) => q.id === queryId);
       if (query) {
-        setSelectedQuery(query);
+        setSelectedQuery((prev) => ({
+          id: query.id,
+          query: query.query,
+          data: prev.data,
+        }));
         setCustomQuery(query.query);
         setDrawerOpen(false);
         setQueryError(null);

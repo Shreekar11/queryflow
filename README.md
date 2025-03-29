@@ -8,9 +8,9 @@
 
 QueryFlow is an application that allows users to write, execute, and manage SQL queries with a focus on usability, performance, and advanced functionality. Core features include a SQL query editor for executing queries, a dropdown for selecting predefined queries, and a table for displaying data. Additional features include query history, searchable query history, CSV export, virtualization to render large datasets, sorting data functionality, and dark mode to enhance the user experience. The project showcases various functionalities, performance optimizations, and a user-focused layout design.
 
-## Flow Diagram
+## Demo Video
 
-![Architecture Diagram](screenshots/flow-diagram.png)
+[Watch QueryFlow Demo](https://www.loom.com/share/09c517c0232a4c91b2d5720e4bf07afc?sid=c7f84747-71c6-451d-a873-f85ba9a87dae)
 
 ## Core Features
 
@@ -26,6 +26,12 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 - **Optimized Table Rendering for Large Datasets**: Efficiently render large datasets using react-window without impacting browser performance.
 - **Sorting Functionality**: Sort table data in ascending or descending order by clicking on the table headers.
 - **Dark Mode**: Switch between light and dark themes for enhanced accessibility.
+
+
+## Flow Diagram
+
+![Architecture Diagram](screenshots/flow-diagram.png)
+
 
 ## JavaScript Framework and Dependencies
 

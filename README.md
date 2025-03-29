@@ -64,7 +64,7 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 - **Measurement**: The page load time was measured using Chrome DevTools' **Lighthouse** tool
 - **Result**: The page load time is approximately **0.4 seconds** to **1.0 seconds**.
 - **How It Was Measured**:
-  - Opened Chrome DevTools, navigated to the Lighthouse tab, and ran a performance audit with the following settings:
+  - Opened Chrome DevTools, navigated to the Lighthouse tab, and ran a performance audit.
   - Recorded the TTI metric from the Lighthouse report.
 
 ## Performance Optimizations

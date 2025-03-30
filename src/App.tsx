@@ -10,7 +10,6 @@ import "./styles/App.css";
 const DataTable = lazy(() => import("./components/data-table"));
 const QueryInput = lazy(() => import("./components/query-input"));
 const QueryHistory = lazy(() => import("./components/query-history"));
-const VirtualTable = lazy(() => import("./components/virtual-table"));
 const SkeletonTable = lazy(() => import("./components/table-skeleton"));
 const QuerySelector = lazy(() => import("./components/query-selector"));
 
@@ -517,10 +516,14 @@ function App() {
                   >
                     {isLoading ? (
                       <SkeletonTable />
-                    ) : selectedQuery.id === 5 ? (
-                      <VirtualTable data={selectedQuery} />
                     ) : (
-                      <DataTable data={selectedQuery} />
+                      <DataTable
+                        data={selectedQuery}
+                        useVirtualization={
+                          selectedQuery.data.length > 500 ||
+                          selectedQuery.id === 5
+                        }
+                      />
                     )}
                   </Suspense>
                 </Box>

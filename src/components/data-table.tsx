@@ -1,10 +1,11 @@
 import { toast } from "sonner";
 import { useMemo, useRef } from "react";
+import { FixedSizeList } from "react-window";
 import { useTable, useSortBy, Column } from "react-table";
 
 import Papa from "papaparse";
-import SouthIcon from '@mui/icons-material/South';
-import NorthIcon from '@mui/icons-material/North';
+import NorthIcon from "@mui/icons-material/North";
+import SouthIcon from "@mui/icons-material/South";
 import DownloadIcon from "@mui/icons-material/Download";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 
@@ -31,12 +32,17 @@ interface DataTableProps {
     query: string;
     data: Record<string, any>[];
   };
+  useVirtualization?: boolean;
 }
 
-const DataTable = ({ data }: DataTableProps) => {
+const DataTable = ({ data, useVirtualization }: DataTableProps) => {
   const tableRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const shouldUseVirtualization = useMemo(() => {
+    return useVirtualization || data.data.length > 500;
+  }, [useVirtualization, data.data.length]);
 
   const handleExportCSV = () => {
     const csv = Papa.unparse(data.data);
@@ -75,6 +81,58 @@ const DataTable = ({ data }: DataTableProps) => {
     }, 0);
   }, [columns, isMobile]);
 
+  // virtualized row rendering for large datasets
+  const RenderRow = ({
+    index,
+    style,
+  }: {
+    index: number;
+    style: React.CSSProperties;
+  }) => {
+    const row = rows[index];
+    prepareRow(row);
+    return (
+      <TableRow
+        {...row.getRowProps({
+          style: {
+            ...style,
+            display: "flex",
+            width: `${tableWidth}px`,
+          },
+        })}
+        sx={{
+          "&:hover": {
+            bgcolor: (theme) =>
+              theme.palette.mode === "light" ? "grey.100" : "grey.800",
+          },
+          bgcolor: (theme) => theme.palette.background.paper,
+        }}
+      >
+        {row.cells.map((cell, cellIndex) => (
+          <TableCell
+            {...cell.getCellProps()}
+            sx={{
+              flex: "0 0 auto",
+              width: cellIndex === 0 ? 100 : 200,
+              minWidth: cellIndex === 0 ? 100 : 200,
+              maxWidth: cellIndex === 0 ? 100 : 200,
+              display: "flex",
+              alignItems: "center",
+              borderBottom: "1px solid rgba(224, 224, 224, 1)",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              color: (theme) => theme.palette.text.primary,
+            }}
+            key={cellIndex}
+          >
+            {cell.render("Cell")}
+          </TableCell>
+        ))}
+      </TableRow>
+    );
+  };
+
   return (
     <div
       style={{
@@ -85,7 +143,7 @@ const DataTable = ({ data }: DataTableProps) => {
         width: "100%",
       }}
     >
-      {data.data.length !== 0 && (
+      {data.data.length > 0 && (
         <Box
           sx={{
             display: "flex",
@@ -109,12 +167,19 @@ const DataTable = ({ data }: DataTableProps) => {
           <Alert severity="info" sx={{ border: 0, borderRadius: 2 }}>
             {`Showing ${rows.length} rows of ${data.data.length} rows`}
           </Alert>
+          {shouldUseVirtualization && (
+            <Alert severity="success" sx={{ border: 0, borderRadius: 2 }}>
+              Using virtualized rendering for performance
+            </Alert>
+          )}
         </Box>
       )}
+
       <Box
         sx={{
           width: "100%",
           maxWidth: "100%",
+          margin: "0 auto",
           border: "1px solid",
           borderColor: "divider",
           borderRadius: 2,
@@ -129,9 +194,10 @@ const DataTable = ({ data }: DataTableProps) => {
           }}
           ref={tableRef}
         >
+          {/* Non-mobile view */}
           {!isMobile && (
-            <div className="">
-              {data.data.length !== 0 ? (
+            <div>
+              {data.data.length > 0 ? (
                 <Table
                   {...getTableProps()}
                   stickyHeader
@@ -169,7 +235,7 @@ const DataTable = ({ data }: DataTableProps) => {
                               overflow: "hidden",
                               textOverflow: "ellipsis",
                               whiteSpace: "nowrap",
-                              cursor: "pointer", // Indicate clickable header
+                              cursor: "pointer",
                             }}
                             key={columnIndex}
                           >
@@ -177,15 +243,9 @@ const DataTable = ({ data }: DataTableProps) => {
                               {column.render("Header")}
                               {(column as any).isSorted ? (
                                 (column as any).isSortedDesc ? (
-                                  <SouthIcon
-                                    fontSize="small"
-                                    sx={{ ml: 1 }}
-                                  />
+                                  <SouthIcon fontSize="small" sx={{ ml: 1 }} />
                                 ) : (
-                                  <NorthIcon
-                                    fontSize="small"
-                                    sx={{ ml: 1 }}
-                                  />
+                                  <NorthIcon fontSize="small" sx={{ ml: 1 }} />
                                 )
                               ) : (
                                 <ImportExportIcon
@@ -200,61 +260,75 @@ const DataTable = ({ data }: DataTableProps) => {
                     ))}
                   </TableHead>
                   <TableBody {...getTableBodyProps()}>
-                    {rows.map((row, index) => {
-                      prepareRow(row);
-                      return (
-                        <TableRow
-                          {...row.getRowProps()}
-                          sx={{
-                            display: "flex",
-                            width: "100%",
-                            "&:hover": {
+                    {shouldUseVirtualization ? (
+                      <FixedSizeList
+                        height={400}
+                        itemCount={rows.length}
+                        itemSize={48}
+                        width={"100%"}
+                      >
+                        {RenderRow}
+                      </FixedSizeList>
+                    ) : (
+                      rows.map((row, index) => {
+                        prepareRow(row);
+                        return (
+                          <TableRow
+                            {...row.getRowProps()}
+                            sx={{
+                              display: "flex",
+                              width: "100%",
+                              "&:hover": {
+                                bgcolor: (theme) =>
+                                  theme.palette.mode === "light"
+                                    ? "grey.100"
+                                    : "grey.800",
+                              },
                               bgcolor: (theme) =>
-                                theme.palette.mode === "light"
-                                  ? "grey.100"
-                                  : "grey.800",
-                            },
-                            bgcolor: (theme) => theme.palette.background.paper,
-                          }}
-                          key={index}
-                        >
-                          {row.cells.map((cell, cellIndex) => (
-                            <TableCell
-                              {...cell.getCellProps()}
-                              sx={{
-                                flex: "0 0 auto",
-                                width: cellIndex === 0 ? 100 : 200,
-                                minWidth: cellIndex === 0 ? 100 : 200,
-                                maxWidth: cellIndex === 0 ? 100 : 200,
-                                display: "flex",
-                                alignItems: "center",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                whiteSpace: "nowrap",
-                                color: (theme) => theme.palette.text.primary,
-                              }}
-                              key={cellIndex}
-                            >
-                              {cell.render("Cell")}
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      );
-                    })}
+                                theme.palette.background.paper,
+                            }}
+                            key={index}
+                          >
+                            {row.cells.map((cell, cellIndex) => (
+                              <TableCell
+                                {...cell.getCellProps()}
+                                sx={{
+                                  flex: "0 0 auto",
+                                  width: cellIndex === 0 ? 100 : 200,
+                                  minWidth: cellIndex === 0 ? 100 : 200,
+                                  maxWidth: cellIndex === 0 ? 100 : 200,
+                                  display: "flex",
+                                  alignItems: "center",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  whiteSpace: "nowrap",
+                                  color: (theme) => theme.palette.text.primary,
+                                }}
+                                key={cellIndex}
+                              >
+                                {cell.render("Cell")}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        );
+                      })
+                    )}
                   </TableBody>
                 </Table>
               ) : (
-                <Typography sx={{ p: 2, font: "2rem", color: "red" }}>
+                <Typography
+                  sx={{ p: 2, fontSize: "1rem", color: "text.secondary" }}
+                >
                   No data available.
                 </Typography>
               )}
             </div>
           )}
 
-          {/* table for mobile view */}
+          {/* Mobile view */}
           {isMobile && (
-            <div className="">
-              {data.data.length !== 0 ? (
+            <div>
+              {data.data.length > 0 ? (
                 <Box sx={{ width: "100%" }}>
                   {rows.map((row, index) => {
                     prepareRow(row);
@@ -305,7 +379,9 @@ const DataTable = ({ data }: DataTableProps) => {
                   })}
                 </Box>
               ) : (
-                <Typography sx={{ p: 2, font: "2rem", color: "red" }}>
+                <Typography
+                  sx={{ p: 2, fontSize: "1rem", color: "text.secondary" }}
+                >
                   No data available.
                 </Typography>
               )}

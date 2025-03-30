@@ -520,8 +520,7 @@ function App() {
                       <DataTable
                         data={selectedQuery}
                         useVirtualization={
-                          selectedQuery.data.length > 500 ||
-                          selectedQuery.id === 5
+                          selectedQuery.data.length > 500
                         }
                       />
                     )}

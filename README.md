@@ -9,12 +9,12 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 
 ## Demo Video
 
-- **Video** - [Watch QueryFlow Demo🚀](https://www.loom.com/share/eeff27b80f294b47b6068b6178b4de08?sid=64550084-4579-4b8b-9140-37b4a1eabf85)
+**Video** - [Watch QueryFlow Demo🚀](https://www.loom.com/share/eeff27b80f294b47b6068b6178b4de08?sid=64550084-4579-4b8b-9140-37b4a1eabf85)
 
 ## Deployment Information
 
-- **Live Link** - [QueryFlow Website🚀](https://query-flow-xi.vercel.app/)
-- **Vercel** - Deployment platform for frontend
+**Live Link** - [QueryFlow Website🚀](https://query-flow-xi.vercel.app/)
+**Vercel** - Deployment platform for frontend
 
 ## Features
 

@@ -1,4 +1,5 @@
 <!-- # [QueryFlow](https://query-flow-xi.vercel.app) -->
+
 ![Header Section](screenshots/banner.png)
 
 > Execute your Queries with ease
@@ -19,18 +20,19 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 ## Features
 
 ### Core Features
-- **SQL Query Editor**: Write SQL queries using `AceEditor` with MySQL syntax highlighting, auto-completion, and theme support.
+
+- **SQL Query Editor**: Write and run SQL queries easily using `AceEditor`, with MySQL syntax highlighting for better readability.
 - **Dropdown Predefined Query Selector**: Select and execute predefined queries from a dropdown list.
 - **Table to Display Data**: View query results in a responsive table.
 
 ### Additional Features
+
 - **Query History**: Access the last 5 executed queries from the history list.
 - **Search Query History**: Quickly find previously executed queries using a search function within the history list.
 - **CSV Export**: Export query results as a CSV file.
 - **Optimized Table Rendering for Large Datasets**: Efficiently render large datasets using `react-window` without impacting browser performance.
 - **Sorting Functionality**: Sort table data in ascending or descending order by clicking on the table headers.
 - **Dark Mode**: Switch between light and dark themes for enhanced accessibility.
-
 
 ## Flow Diagram
 
@@ -39,10 +41,12 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 ## Tech Stack
 
 ### Framework and Language
+
 - **React.js** – JavaScript framework for building user interfaces.
 - **TypeScript** – Superset of JavaScript for type safety.
 
 ### Major Plugins and Packages
+
 - **UI & Styling**
   - `"@mui/material": "^6.4.8"` – Responsive, theme-aware UI components.
   - `"@mui/icons-material": "^6.4.8"` – Material UI icons.
@@ -72,8 +76,8 @@ Several optimizations were applied to decrease load time and increase overall pe
 
 - **Lazy Loading**: Lazy-loaded components using `React.lazy` and `Suspense`, reducing the initial bundle size.
 - **Suspense Fallbacks**: Added loading states for lazy-loaded components to enhance user experience.
-- **`useCallback` & `useMemo` Hooks**:  
-  - **`useCallback`**: Used to memoize functions, preventing unnecessary re-creations on re-renders and improving performance in event handlers and callbacks.  
+- **`useCallback` & `useMemo` Hooks**:
+  - **`useCallback`**: Used to memoize functions, preventing unnecessary re-creations on re-renders and improving performance in event handlers and callbacks.
   - **`useMemo`**: Memoizes expensive calculations, ensuring they are only recomputed when dependencies change, reducing redundant computations.
 - **Component Splitting**: Split code into smaller components to minimize re-renders and improve responsiveness.
 - **Static Styles in CSS**: Moved static styles to `App.css`, reducing First Contentful Paint (FCP).

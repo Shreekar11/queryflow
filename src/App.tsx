@@ -241,7 +241,14 @@ function App() {
 
         if (baseQuery) {
           setSelectedQuery(baseQuery);
-          setHistory((prev) => [baseQuery, ...prev]);
+          setHistory((prev) => [
+            {
+              id: baseQuery.id,
+              data: baseQuery.data,
+              query: customQuery,
+            },
+            ...prev,
+          ]);
         } else {
           setSelectedQuery({
             id: 0,
@@ -250,7 +257,7 @@ function App() {
           });
           setHistory((prev) => [
             { id: 0, query: "No matching query found", data: [] },
-            ...prev.slice(0, 4),
+            ...prev,
           ]);
         }
 
@@ -519,9 +526,7 @@ function App() {
                     ) : (
                       <DataTable
                         data={selectedQuery}
-                        useVirtualization={
-                          selectedQuery.data.length > 500
-                        }
+                        useVirtualization={selectedQuery.data.length > 500}
                       />
                     )}
                   </Suspense>

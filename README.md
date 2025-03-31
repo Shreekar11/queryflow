@@ -27,7 +27,7 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 
 ### Additional Features
 
-- **Query History**: Access the last 5 executed queries from the history list.
+- **Query History**: Access the executed queries from the history list.
 - **Search Query History**: Quickly find previously executed queries using a search function within the history list.
 - **CSV Export**: Export query results as a CSV file.
 - **Optimized Table Rendering for Large Datasets**: Efficiently render large datasets using `react-window` without impacting browser performance.

@@ -6,7 +6,7 @@
 
 ## Project Overview
 
-QueryFlow is an application that allows users to write, execute, and manage SQL queries with a focus on usability, performance, and advanced functionality. Core features include a SQL query editor for executing queries, a dropdown for selecting predefined queries, and a table for displaying data. Additional features include query history, searchable query history, CSV export, virtualization to render large datasets, sorting data functionality, and dark mode to enhance the user experience. The project showcases various functionalities, performance optimizations, and a user-focused layout design.
+QueryFlow is an application that allows users to write, execute, and manage SQL queries with a focus on usability, performance, and advanced functionality. Core features include a SQL query editor for executing queries, a dropdown for selecting predefined queries, and a table for displaying data. Additional features include virtualization for rendering large datasets to optimize performance, query history, searchable query history, CSV export, data sorting, and dark mode to enhance the user experience. The project showcases various functionalities, performance optimizations, and a user-focused layout design.
 
 ## Demo Video
 
@@ -27,10 +27,10 @@ QueryFlow is an application that allows users to write, execute, and manage SQL 
 
 ### Additional Features
 
+- **Optimized Table Rendering for Large Datasets**: Efficiently render large datasets using `react-window` without impacting browser performance.
 - **Query History**: Access the executed queries from the history list.
 - **Search Query History**: Quickly find previously executed queries using a search function within the history list.
 - **CSV Export**: Export query results as a CSV file.
-- **Optimized Table Rendering for Large Datasets**: Efficiently render large datasets using `react-window` without impacting browser performance.
 - **Sorting Functionality**: Sort table data in ascending or descending order by clicking on the table headers.
 - **Dark Mode**: Switch between light and dark themes for enhanced accessibility.
 
@@ -87,7 +87,7 @@ Several optimizations were applied to decrease load time and increase overall pe
 ### Pros
 
 - Includes core features like a query editor, selector, and table, along with advanced features such as history, searchable query history and CSV export.
-- Data table efficiently handles ~1,000 rows using react-window.
+- The data table efficiently handles around 1,000 rows using virtualization for optimal performance.
 - Supports sorting functionality, allowing users to sort table data in ascending or descending order by clicking on column headers.
 - AceEditor, dark mode, and a responsive design enhance usability.
 - TypeScript, a modular structure, and JSDoc comments improve maintainability.
